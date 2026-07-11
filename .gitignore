@@ -1,0 +1,9 @@
+raw/
+work/
+mapping.yaml
+.env
+
+__pycache__/
+*.py[cod]
+.venv/
+.DS_Store
