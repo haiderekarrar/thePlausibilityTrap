@@ -2,11 +2,13 @@
 
 import argparse
 from datetime import datetime
+import json
 from pathlib import Path
 import re
 from typing import Literal
+from zoneinfo import ZoneInfo
 
-from pydantic import BaseModel
+from pydantic import BaseModel, ValidationError
 
 
 TIMESTAMP_PATTERN = re.compile(
@@ -15,6 +17,7 @@ TIMESTAMP_PATTERN = re.compile(
 )
 EMAIL_SEPARATOR_PATTERN = re.compile(r"^={60}$")
 GMAIL_QUOTE_PATTERN = re.compile(r"^On .+ wrote:\s*$")
+IMESSAGE_TIMEZONE = ZoneInfo("America/Los_Angeles")
 
 
 class Event(BaseModel):
@@ -26,6 +29,22 @@ class Event(BaseModel):
     text: str
     amount: float | None
     source_file: str
+
+
+def read_events(input_path: Path) -> list[Event]:
+    """Read and validate Event objects from a JSONL file."""
+    events: list[Event] = []
+
+    for line_number, line in enumerate(input_path.read_text(encoding="utf-8").splitlines(), start=1):
+        if not line.strip():
+            continue
+        try:
+            event_data = json.loads(line)
+            events.append(Event.model_validate(event_data))
+        except (json.JSONDecodeError, ValidationError):
+            raise ValueError(f"Invalid Event JSONL on line {line_number}.") from None
+
+    return events
 
 
 def parse_imessage_export(input_path: Path) -> list[Event]:
@@ -45,7 +64,7 @@ def parse_imessage_export(input_path: Path) -> list[Event]:
 
         timestamp = datetime.strptime(
             timestamp_match.group("timestamp"), "%b %d, %Y %I:%M:%S %p"
-        )
+        ).replace(tzinfo=IMESSAGE_TIMEZONE)
         line_index += 1
 
         if line_index >= len(lines) or not lines[line_index].strip():

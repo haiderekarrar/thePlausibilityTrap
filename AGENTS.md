@@ -1,5 +1,9 @@
 # Project Instructions
 
+## Source of Truth
+
+- `deal_autopsy_build_spec_v2.md` replaces the original build specification and is the source of truth for this project.
+
 ## Privacy and Safety
 
 - Never read, print, summarize, or send anywhere the contents of `raw/` or `mapping.yaml`. They contain unredacted personal data.
@@ -25,3 +29,9 @@
 ## Build Log Habit
 
 - Prompt the user to add a `NOTES.md` entry when something surprising happens, including failures, corrections, implementation decisions, or scope changes.
+
+## Replay Integrity
+
+- Every `ground_truth.md` file is written by the user by hand. Never generate, edit, rewrite, or improve its substantive content.
+- Write out the replay harness plan and obtain the user's approval before writing any `replay.py` code.
+- Run replays honestly and publish the results whatever they show, including results that flatter the models or complicate the project's thesis.

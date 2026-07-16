@@ -1,32 +1,14 @@
 """Redact mapped identity strings from Event JSONL before external use."""
 
 import argparse
-import json
 from pathlib import Path
 
-from pydantic import ValidationError
 import yaml
 
-from ingest import Event, write_events
+from ingest import Event, read_events, write_events
 
 
 STRING_FIELDS = ("id", "actor", "counterparty", "text", "source_file")
-
-
-def read_events(input_path: Path) -> list[Event]:
-    """Read and validate Event objects from a JSONL file."""
-    events: list[Event] = []
-
-    for line_number, line in enumerate(input_path.read_text(encoding="utf-8").splitlines(), start=1):
-        if not line.strip():
-            continue
-        try:
-            event_data = json.loads(line)
-            events.append(Event.model_validate(event_data))
-        except (json.JSONDecodeError, ValidationError):
-            raise ValueError(f"Invalid Event JSONL on line {line_number}.") from None
-
-    return events
 
 
 def load_mapping(mapping_path: Path) -> dict[str, str]:
