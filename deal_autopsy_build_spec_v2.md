@@ -14,7 +14,7 @@ A public GitHub repo plus one self-contained HTML report. The report has five se
 
 1. **The Deal** — hero stats ($226,000 close vs. $150K ceiling, duration, event count, dollar volume) and a timeline of the real transaction segmented into episodes (agent search, tenant negotiation, heating crisis, meter crisis, closing sprint), with a message-frequency sparkline so the crisis weeks are visible as spikes.
 2. **Primitive Decomposition** — every action classified into the taxonomy, with two bars per primitive: share of actions vs. share of dollar outcome. The mismatch between those bars is the product argument drawn as a picture.
-3. **Capability Matrix** — per primitive: automatable today / automatable with human approval / fails today, each verdict backed by replay evidence.
+3. **Capability Matrix** — per primitive: AI acts / AI prepares and a human approves / human-led with AI support. Back each routing decision with replay evidence where available and mark it explicitly as a product hypothesis where evidence is not yet available; classification frequency alone does not prove that the work can be automated. Model failures are reported separately rather than hidden inside the routing labels.
 4. **The Replays** — the core section. For each decision point: the context the human had → what each model did (verbatim), under two conditions and three model tiers → what actually happened → the delta.
 5. **Findings** — the A/B condition chart, the tier-gap chart, and the elicitation-grade table. Three charts, three sentences each.
 
@@ -106,15 +106,17 @@ For each replay: a context pack (redacted events up to that timestamp, nothing a
 
 **Two conditions per replay (the A/B experiment):**
 - **Condition A — raw:** full context pack straight to the deciding call.
-- **Condition B — triage first:** call 1 asks the model to identify which information is relevant and why; call 2 decides using only the model's own distillation.
+- **Condition B — structured triage, then decide:** call 1 receives the same full context pack and produces a distillation containing: (a) the objective and constraints, (b) relevant evidence, separated into observations/facts versus claims, (c) assumptions, (d) stakeholder incentives, (e) important uncertainties, and (f) missing information worth obtaining. Call 2 sees only that distillation and must produce: (a) the viable options, (b) the major downside of its preferred option, (c) the likely counterparty response, (d) the chosen action, and (e) the immediate next step.
 
-Rationale: triage is not preprocessing — deciding what's relevant is most of the decision (it's where the $76K was made in real life). Splitting it makes failures diagnosable: "couldn't find what mattered" vs. "had it and chose badly." If B reliably beats A, the benchmark yields evidence that capability isn't the bottleneck — context structuring is, i.e., the interface layer. Report whichever way it comes out.
+Rationale: triage is not preprocessing — deciding what's relevant is most of the decision (it's where the $76K was made in real life). Splitting it makes failures diagnosable: "couldn't find what mattered" vs. "had it and chose badly." If B reliably beats A, the benchmark yields evidence that the structured workflow helped the model operate inside the messy situation. Condition B uses an additional model call and a defined reasoning process, so report it accurately as a raw one-stage decision versus a structured two-stage workflow, not as proof that formatting alone caused any improvement. Report whichever way it comes out.
 
 **Three model tiers per condition** (small / mid / frontier): the tier gap per primitive is itself a finding — where on the capability curve does each primitive become automatable, and at what cost per task.
 
 **Scoring, two axes per transcript:**
 1. **Decision quality** vs. ground truth (with the dollar delta where computable).
 2. **Elicitation grade**, three levels: (i) one-shots without interrogating the goal; (ii) elicits surface preferences and optimizes them literally — e.g., hears "speed matters most" and recommends accepting $220K, the speed trap; (iii) reasons about how the counterparty responds to the move — recognizes strength as the fast path.
+
+**Diagnostic labels, not a third scoring axis:** when a response is weak, the human scorer may attach any of four fixed labels: `missed_relevant_evidence`, `treated_claim_as_fact`, `misunderstood_objective`, or `ignored_counterparty_response`. These labels explain failures in the replay detail; they do not create another headline score or chart. Record the exact model identifier, prompts, token usage, latency, and cost for each run so the extra work in Condition B remains visible.
 
 **Integrity rule, non-negotiable:** run everything honestly and publish whatever happens, including results that flatter the models or complicate the thesis. The insight is whatever the truth turns out to be.
 
@@ -130,7 +132,7 @@ Rationale: triage is not preprocessing — deciding what's relevant is most of t
 ## 6. Scope tiers
 
 - **Tier 1, must ship:** ingest + redact + classify + episode timeline + static report.
-- **Tier 2, the magic:** replays 1–4, both conditions, three tiers, both scoring axes. If time compresses: replays 1 and 4 only, both conditions — those two carry the story.
+- **Tier 2, the magic:** replays 1–4, both conditions, three tiers, both scoring axes. Run replays 1 and 4 first so a complete central demo exists as early as possible; then add replays 2 and 3. If time compresses, ship replays 1 and 4 only, both conditions and all three tiers — those two carry the story.
 - **Tier 3, only if ahead:** replay 5, Dubai corpus as a second deal, interactivity.
 
 Anything not listed is out of scope. No mid-build exceptions.
@@ -139,7 +141,7 @@ Anything not listed is out of scope. No mid-build exceptions.
 
 - **Now / Day 1–2:** finish parsers → verified `events.jsonl`; redaction + verification grep green; write all ground_truth.md files by hand (no code required — do these in parallel with waiting on builds).
 - **Day 2:** episodes + classification with the routing protocol; rollup stats; learn what the punchline numbers actually are.
-- **Day 3:** replay harness (plan reviewed first), run all conditions × tiers, collect transcripts. Start report.py.
+- **Day 3:** replay harness (plan reviewed first), run replays 1 and 4 across all conditions × tiers, and collect transcripts. Start report.py. Add replays 2 and 3 after the central demo works.
 - **Day 4:** finish report, README, NOTES.md; publish repo (synthetic sample committed, raw/ and mapping.yaml verified excluded); record the 90-second video.
 - **Day 5 (buffer):** X post, DM with video, first three sends to the backup list.
 
