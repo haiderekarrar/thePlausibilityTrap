@@ -42,6 +42,7 @@ def read_events(input_path: Path) -> list[Event]:
             event_data = json.loads(line)
             events.append(Event.model_validate(event_data))
         except (json.JSONDecodeError, ValidationError):
+            # Validation details can contain source text, so suppress the original error.
             raise ValueError(f"Invalid Event JSONL on line {line_number}.") from None
 
     return events
