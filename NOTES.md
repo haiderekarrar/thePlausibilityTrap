@@ -2,6 +2,8 @@
 
 A running record of decisions, failures, corrections, and surprises while building Deal Autopsy. Newest entries at the bottom. Entries marked [FILL] need details from my own sessions — do not ship the file with [FILL] markers in it.
 
+**Contrarian thesis.** I believe the most valuable untapped evidence about knowledge-work automation is not sitting in public benchmark datasets. It is buried in the private digital exhaust of real transactions: messages, emails, documents, decisions, and outcomes. Deal Autopsy turns one such transaction into a privacy-preserving, reproducible test of where AI can act reliably, where better interfaces must structure context, and where human judgment still matters. The project itself is the wager: I started building that evidence before anyone paid me to.
+
 ---
 
 **Tooling split.** Daily driver is Codex (builder). Hard architecture, plan reviews, schema decisions, and pre-publication redaction checks get escalated to Claude in a separate session that holds the full project context (architect/verifier). Chose this split partly because my brother uses Codex, so I have a human escalation path too. Will note where each earns its keep as the build progresses.
@@ -55,6 +57,12 @@ A running record of decisions, failures, corrections, and surprises while buildi
 **Future evaluation safeguards.** A broader study could predefine replay-specific rubrics, blind condition/model identities during human scoring, repeat the most important cells to measure run-to-run variation, and compare raw, triage-only, and fuller decision-protocol workflows. It must also state the counterfactual limitation: the historical record reveals the outcome of the action actually taken, not with certainty what every alternative would have produced.
 
 **V1 scope decision after the broader autonomy discussion.** Do not add the microdecision audit or continuous agent to the first shipping path. Preserve both A/B conditions, run replays 1 and 4 first across all three tiers, and use the report's Capability Matrix to describe the immediate operating model: AI acts on bounded work, AI prepares consequential work for approval, and humans lead strategic or irreversible decisions with AI-organized context.
+
+**Replay experiment redesign.** Split the experiment into raw, structured-reasoning, and clarification conditions so reasoning-process lift can be separated from intent-transfer lift. Made the long-trajectory artifact, two headline replays across three tiers and three repeats, and quality-versus-cost reporting must-ship; deferred breadth.
+
+**Replay integrity cleanup.** Neutralized outcome-bearing replay IDs, made prompt leakage boundaries and the two-call Condition C explicit, separated historical-action matching from decision quality, froze retry and model-configuration rules, and restored a mapped case-variant privacy warning.
+
+**Notebook-method replay scaffold.** Conditions B and C now organize context into the same five-part evidence brief before any decision; C derives up to three owner-answerable questions from its ranked unknowns before Call 2 decides. Decision-quality scoring can fully credit defensible alternatives, while historical-action matching remains separate. The headline grid uses one model family at maximum explicit reasoning effort and reports actual cost; a second-provider replay-4 check is post-v1. Rejected a separate model preflight system as unnecessary: explicit model IDs, UTC timestamps, frozen settings, and the existing unscored vertical slice are enough for this demo.
 
 **[FILL] — Redaction verification results.** What the leak-check grep caught on its first run, if anything, and what was added to mapping.yaml as a result.
 
