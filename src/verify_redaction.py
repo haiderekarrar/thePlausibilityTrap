@@ -1,11 +1,10 @@
-"""Check publishable text files for mapped strings, case variants, and PII shapes."""
+"""Check publishable text files for mapped strings and PII shapes."""
 
 import argparse
 from pathlib import Path
 import re
 
 from redact import (
-    compile_source_pattern,
     load_mapping,
     prepare_verification_patterns,
 )
@@ -26,85 +25,97 @@ PII_PATTERNS = {
         re.IGNORECASE,
     ),
 }
+UUID_PATTERN = re.compile(
+    r"(?<![0-9A-Fa-f])"
+    r"[0-9A-Fa-f]{8}-[0-9A-Fa-f]{4}-[0-9A-Fa-f]{4}-"
+    r"[0-9A-Fa-f]{4}-[0-9A-Fa-f]{12}"
+    r"(?![0-9A-Fa-f])"
+)
+BLOCKING_PII_CATEGORIES = frozenset(
+    {"email_address", "phone_number", "possible_street_address"}
+)
+ADVISORY_PII_CATEGORIES = frozenset({"long_digit_sequence"})
 
 
-def find_leaking_files(file_paths: list[Path], mapping: dict[str, str]) -> list[Path]:
-    """Return files that still contain a mapped source string."""
-    source_patterns = prepare_verification_patterns(mapping)
-    leaking_files: list[Path] = []
-
-    for file_path in file_paths:
-        contents = file_path.read_text(encoding="utf-8")
-        if any(pattern.search(contents) for pattern in source_patterns):
-            leaking_files.append(file_path)
-
-    return leaking_files
-
-
-def prepare_case_variant_patterns(
-    mapping: dict[str, str],
-) -> list[tuple[str, re.Pattern]]:
-    """Compile case-insensitive checks when source and pseudonym remain distinct."""
-    patterns: list[tuple[str, re.Pattern]] = []
-
-    for source in sorted(mapping, key=len, reverse=True):
-        if source.casefold() == mapping[source].casefold():
-            continue
-        exact_pattern = compile_source_pattern(source)
-        patterns.append((source, re.compile(exact_pattern.pattern, re.IGNORECASE)))
-
-    return patterns
-
-
-def find_case_variant_warnings(
+def find_mapped_source_leaks(
     file_paths: list[Path], mapping: dict[str, str]
 ) -> list[tuple[Path, int, str]]:
-    """Return locations of mapped sources that survive with changed capitalization."""
-    source_patterns = prepare_case_variant_patterns(mapping)
-    pseudonyms = set(mapping.values())
-    warnings: list[tuple[Path, int, str]] = []
+    """Return safe line locations for mapped sources that remain."""
+    source_patterns = prepare_verification_patterns(mapping)
+    leaks: list[tuple[Path, int, str]] = []
 
     for file_path in file_paths:
         lines = file_path.read_text(encoding="utf-8").splitlines()
         for line_number, line in enumerate(lines, start=1):
-            found_variant = False
-            for source, pattern in source_patterns:
-                for match in pattern.finditer(line):
-                    matched_text = match.group(0)
-                    if matched_text != source and matched_text not in pseudonyms:
-                        warnings.append((file_path, line_number, "case_variant"))
-                        found_variant = True
-                        break
-                if found_variant:
-                    break
+            if any(pattern.search(line) for pattern in source_patterns):
+                leaks.append((file_path, line_number, "mapped_source"))
 
-    return warnings
+    return leaks
 
 
 def find_pii_pattern_warnings(
     file_paths: list[Path], mapping: dict[str, str]
 ) -> list[tuple[Path, int, str]]:
-    """Return locations and categories for PII-shaped text not known as a pseudonym."""
+    """Return PII-shaped findings, excluding UUID-contained digit runs."""
     pseudonyms = tuple(mapping.values())
     warnings: list[tuple[Path, int, str]] = []
 
     for file_path in file_paths:
         lines = file_path.read_text(encoding="utf-8").splitlines()
         for line_number, line in enumerate(lines, start=1):
+            uuid_spans = [
+                uuid_match.span()
+                for uuid_match in UUID_PATTERN.finditer(line)
+            ]
             for category, pattern in PII_PATTERNS.items():
-                matches = pattern.finditer(line)
-                if any(
-                    not any(match.group(0) in pseudonym for pseudonym in pseudonyms)
-                    for match in matches
-                ):
+                has_unapproved_match = False
+                for match in pattern.finditer(line):
+                    if category == "long_digit_sequence" and any(
+                        uuid_start <= match.start()
+                        and match.end() <= uuid_end
+                        for uuid_start, uuid_end in uuid_spans
+                    ):
+                        continue
+                    if any(
+                        match.group(0) in pseudonym
+                        for pseudonym in pseudonyms
+                    ):
+                        continue
+                    has_unapproved_match = True
+
+                if has_unapproved_match:
                     warnings.append((file_path, line_number, category))
 
     return warnings
 
 
+def split_pii_warnings(
+    warnings: list[tuple[Path, int, str]],
+) -> tuple[
+    list[tuple[Path, int, str]],
+    list[tuple[Path, int, str]],
+]:
+    """Separate blocking findings from advisory identifier review."""
+    known_categories = (
+        BLOCKING_PII_CATEGORIES | ADVISORY_PII_CATEGORIES
+    )
+    advisory_warnings = [
+        warning
+        for warning in warnings
+        if warning[2] in ADVISORY_PII_CATEGORIES
+    ]
+    blocking_warnings = [
+        warning
+        for warning in warnings
+        if warning[2] in BLOCKING_PII_CATEGORIES
+        or warning[2] not in known_categories
+    ]
+    return blocking_warnings, advisory_warnings
+
+
 def main() -> None:
     parser = argparse.ArgumentParser(
-        description="Check publishable files for mapped strings, case variants, and PII."
+        description="Check publishable files for mapped strings and PII."
     )
     parser.add_argument(
         "file_paths",
@@ -121,27 +132,55 @@ def main() -> None:
     args = parser.parse_args()
 
     mapping = load_mapping(args.mapping)
-    leaking_files = find_leaking_files(args.file_paths, mapping)
-    case_variant_warnings = find_case_variant_warnings(args.file_paths, mapping)
+    mapped_source_leaks = find_mapped_source_leaks(args.file_paths, mapping)
     pii_warnings = find_pii_pattern_warnings(args.file_paths, mapping)
+    blocking_pii_warnings, advisory_pii_warnings = split_pii_warnings(
+        pii_warnings
+    )
 
-    for file_path in leaking_files:
-        print(f"Mapped-string leak: {file_path}")
-    for file_path, line_number, category in case_variant_warnings:
-        print(f"Mapped-string warning: {file_path}:{line_number} ({category})")
-    for file_path, line_number, category in pii_warnings:
-        print(f"PII-pattern warning: {file_path}:{line_number} ({category})")
-
-    if leaking_files or case_variant_warnings or pii_warnings:
-        raise ValueError(
-            "Redaction verification failed; review the locations above locally."
+    for file_path, line_number, category in mapped_source_leaks:
+        print(
+            f"Blocking verification failure: "
+            f"{file_path}:{line_number} ({category})"
+        )
+    for file_path, line_number, category in blocking_pii_warnings:
+        print(
+            f"Blocking verification failure: "
+            f"{file_path}:{line_number} ({category})"
+        )
+    for file_path, line_number, category in advisory_pii_warnings:
+        print(
+            f"Advisory identifier review: "
+            f"{file_path}:{line_number} ({category})"
         )
 
-    print(
-        f"Verified {len(args.file_paths)} file(s): "
-        "no mapped source strings, unapproved case variants, "
-        "or PII-pattern warnings remain."
+    blocking_failure_count = (
+        len(mapped_source_leaks) + len(blocking_pii_warnings)
     )
+    if blocking_failure_count:
+        print(
+            f"Blocking verification failed with "
+            f"{blocking_failure_count} finding(s)."
+        )
+    else:
+        print(
+            f"Blocking verification passed for "
+            f"{len(args.file_paths)} file(s): no mapped sources, "
+            "email addresses, telephone numbers, "
+            "or possible street addresses remain."
+        )
+
+    if advisory_pii_warnings:
+        print(
+            f"Advisory review remains for "
+            f"{len(advisory_pii_warnings)} long-digit line location(s) "
+            "before public release."
+        )
+    else:
+        print("No advisory long-digit findings remain.")
+
+    if blocking_failure_count:
+        raise SystemExit(1)
 
 
 if __name__ == "__main__":

@@ -67,3 +67,5 @@ A running record of decisions, failures, corrections, and surprises while buildi
 **[FILL] — Redaction verification results.** What the leak-check grep caught on its first run, if anything, and what was added to mapping.yaml as a result.
 
 **[FILL] — Anything that surprised me.** Standing rule: one line, same day, every time an agent does something unexpectedly good or unexpectedly bad.
+
+**Redaction and verification correction.** Replacement and mapped-source verification now share one capitalization policy: mapped sources are case-insensitive except exact-case `Me -> ME`, preserving ordinary lowercase pronouns. Mapped sources, emails, telephone numbers, and possible street addresses remain blocking findings. Generic long-digit sequences are advisory because they may represent either sensitive numbers or harmless structural identifiers. Standard UUID-contained runs are suppressed. The real corpus passed all blocking verification. The owner reviewed the 15 remaining numeric advisories and classified all of them as public application IDs or generated URL, email, and attachment metadata. No mapping changes were required.
