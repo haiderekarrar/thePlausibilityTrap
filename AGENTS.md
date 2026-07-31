@@ -2,7 +2,8 @@
 
 ## Source of Truth
 
-- `deal_autopsy_build_spec_v2.md` replaces the original build specification and is the source of truth for this project.
+- `deal_autopsy_build_spec_v3.md` replaces the earlier build specifications and is the Tier 1 source of truth for this project.
+- The `replay.py` implementation plan required by v3 is the remaining approval gate before any `replay.py` code is written.
 
 ## Product Goal
 
@@ -61,7 +62,7 @@
 - Every `ground_truth.md` file is written by the user by hand. Never generate, edit, rewrite, or improve its substantive content.
 - Every `operator_state.md` file is also written by the user by hand. Agents may scaffold headers but must not supply its facts, preferences, reasoning, or answers.
 - Both owner-authored files must use pseudonyms and pass redaction verification before they are frozen, committed, or used.
-- Write out the replay harness plan and obtain the user's approval before writing any `replay.py` code.
+- Write out the `replay.py` implementation plan and obtain the user's approval before writing any `replay.py` code.
 - Generation prompts must never contain ground truth, outcomes, scores, post-decision events, or replay filenames and slugs. Use outcome-neutral internal replay IDs.
 - Conditions A and B never receive `operator_state.md`. Condition C receives only the verified, redacted answers to the questions it actually asked, never the complete file.
 - Freeze each replay's rubric, prompts, ground truth, operator state, exact model identifiers, supported parameters, retry rules, and cost limits before its first scored run. Use dated model snapshots when the provider offers them. Record later changes in `NOTES.md` and create new run IDs.
