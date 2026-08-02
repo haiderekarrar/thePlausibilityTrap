@@ -2,8 +2,15 @@
 
 ## Source of Truth
 
-- `deal_autopsy_build_spec_v3.md` replaces the earlier build specifications and is the Tier 1 source of truth for this project.
+- `deal_autopsy_build_spec_v3.md` replaces the earlier build specifications and is the source of truth for Tier 1 architecture and Tier 1a execution.
 - The `replay.py` implementation plan required by v3 is the remaining approval gate before any `replay.py` code is written.
+
+## Tier 1a Execution Scope
+
+- Execute Replay 04 only under Conditions A, B, and C across three model tiers and three repeats per cell: 27 scored attempts.
+- Replay 01 is the first post-ship expansion.
+- Defer document ingestion until after the Replay 04 artifact ships; the existing iMessage corpus fully supports Tier 1a.
+- All other approved v3 requirements remain in force.
 
 ## Product Goal
 

@@ -1,6 +1,6 @@
 # Deal Autopsy — Build Specification v3
 
-**STATUS: FROZEN FOR TIER 1.**
+**STATUS: FROZEN FOR TIER 1a EXECUTION.**
 
 **Central thesis:** Deal Autopsy turns the redacted digital exhaust of a real $226K distressed-property sale into a reproducible test of whether structured context and targeted clarification help an AI convert a short human request and messy evidence into correct, evidence-grounded, executable work while respecting human authority boundaries.
 
@@ -21,7 +21,15 @@
 - Human input burden is measured.
 - Notebook provenance is confirmed as contemporaneous.
 - Redaction replacement and verification now share one matching policy.
-- Tier 1 scope is bounded pending owner approval; new ideas belong in `POST_SHIP.md`.
+- Tier 1a execution is narrowed to Replay 04; Replay 01 and document ingestion move behind the first shipped artifact.
+
+## Tier 1a execution addendum
+
+Tier 1a executes Replay 04 under Conditions A, B, and C across three model tiers and three repeats per cell: 27 scored attempts.
+
+Replay 01 is the first post-ship expansion. Document ingestion is deferred until after the Replay 04 artifact ships because the existing iMessage corpus fully supports the headline replay.
+
+This addendum narrows execution scope only. All other approved v3 architecture, experimental design, provenance, scoring, trajectory, reporting, privacy, and publication requirements remain in force.
 
 ## Experimental question
 
@@ -82,7 +90,7 @@ report.html
 README.md             # doubles as the product memo
 NOTES.md              # agent-driving log: failures, corrections, decisions, surprises
 AGENTS.md             # standing instructions for the coding agent
-POST_SHIP.md          # concise deferred experiments; no Tier 1 scope expansion
+POST_SHIP.md          # concise deferred work; no Tier 1a scope expansion
 mapping.yaml          # real string -> pseudonym (NEVER committed)
 ```
 
@@ -108,7 +116,7 @@ Each headline replay contains owner-authored `task_brief.md`, `ground_truth.md`,
 
 ## 3. Pipeline
 
-**Step 1 — Ingest.** One parser per source (iMessage, Gmail, WhatsApp, payments) producing Event rows into `events.jsonl`. Parsers extract VERBATIM — no identity mapping in parsers, ever; identity appears inside message bodies, not just sender fields, so partial mapping anywhere creates unauditable leaks. Document ingestion remains a pending owner decision. The current proposed approach is for the owner to hand-list only deal-relevant facts and transactions from local PDFs in a simple CSV rather than parse the PDFs. Do not treat that approach as approved until the owner selects it. Target: one clean chronological JSONL.
+**Step 1 — Ingest.** One parser per source (iMessage, Gmail, WhatsApp, payments) producing Event rows into `events.jsonl`. Parsers extract VERBATIM — no identity mapping in parsers, ever; identity appears inside message bodies, not just sender fields, so partial mapping anywhere creates unauditable leaks. The existing iMessage corpus fully supports Replay 04. Document ingestion remains a pending owner decision and is deferred until after the Tier 1a artifact ships. The current proposed approach is for the owner to hand-list only deal-relevant facts and transactions from local PDFs in a simple CSV rather than parse the PDFs. Do not treat that approach as approved until the owner selects it. Target after any post-ship expansion: one clean chronological JSONL.
 
 **Step 2 — Redact.** `mapping.yaml` holds every real string → pseudonym. Replacement and mapped-source verification share one boundary-aware policy: mapped sources match case-insensitively except exact-case `Me` → `ME`, which preserves ordinary lowercase pronouns. Capitalization-equivalent aliases coalesce only when they produce the same pseudonym; collisions fail safely without printing source values. Raw files remain local and never enter agent or replay-model context. A separately authorized, isolated mapping task may inspect extracted identity candidates and `mapping.yaml`; record that exception honestly. No unredacted corpus reaches replay or analysis models. Verification blocks on surviving mapped sources, emails, telephone numbers, and possible street addresses. Generic long-digit sequences remain visible as owner-review advisories; standard UUID-contained digit runs are suppressed as unambiguous structural metadata. Run verification over every model-visible or publishable output, including owner-authored replay files and staged Condition C answers before API use.
 
@@ -218,7 +226,7 @@ Generate and validate this file from redacted events plus frozen owner-authored 
 
 ## 5. The replay harness (the intellectual center — plan reviewed before building)
 
-Before any `replay.py` code, write a concrete implementation plan covering prompt text, schemas, owner-answer handling, run IDs, persistence, retries, scoring inputs, failures, supported parameters, and cost limits; obtain owner approval. This is the remaining Tier 1 approval gate.
+Before any `replay.py` code, write a concrete implementation plan covering prompt text, schemas, owner-answer handling, run IDs, persistence, retries, scoring inputs, failures, supported parameters, and cost limits; obtain owner approval. This is the remaining Tier 1a approval gate.
 
 For each replay, create one frozen redacted context pack containing events available up to the decision timestamp and nothing afterward. Hold constant across conditions:
 
@@ -329,7 +337,7 @@ The owner answers under the frozen `operator_state.md` policy. Save each answer 
 
 B → C estimates clarification lift while holding the scaffold and number of model calls constant. A → C estimates total guided-interface lift. Condition C does not prove whether the owner already knew but failed to express something, held conflicting preferences, or discovered a new implication through the question.
 
-Tier 1 uses one batched clarification round. This is a lower bound on what adaptive dialogue could recover; adaptive multi-round clarification is a named post-ship experiment.
+Tier 1a uses one batched clarification round. This is a lower bound on what adaptive dialogue could recover; adaptive multi-round clarification is a named post-ship experiment.
 
 ### The scaffold is a floor, not a ceiling
 
@@ -359,9 +367,9 @@ The permissions field states what the AI could perform autonomously, what it may
 
 ### Headline replay roles
 
-**Replay 01 — operational outcome-execution test.** It tests whether the AI preserves the accept-versus-repair fork, distinguishes non-equivalent offers and scopes, organizes evidence, identifies sale blockers and missing information, produces usable comparisons and follow-ups, respects approvals, and defines completion verification. It must not assume repairs are already the chosen strategy.
+**Replay 01 — first post-ship expansion and operational outcome-execution test.** It tests whether the AI preserves the accept-versus-repair fork, distinguishes non-equivalent offers and scopes, organizes evidence, identifies sale blockers and missing information, produces usable comparisons and follow-ups, respects approvals, and defines completion verification. It must not assume repairs are already the chosen strategy.
 
-**Replay 04 — consequential-judgment and escalation-boundary test.** It tests whether the AI identifies the conflict among speed, price, certainty, and risk; distinguishes a stated preference from the outcome it serves; models likely counterparty response; prepares a defensible recommendation and exact response; and recognizes that the consequential final action belongs to the human.
+**Replay 04 — Tier 1a consequential-judgment and escalation-boundary test.** It tests whether the AI identifies the conflict among speed, price, certainty, and risk; distinguishes a stated preference from the outcome it serves; models likely counterparty response; prepares a defensible recommendation and exact response; and recognizes that the consequential final action belongs to the human.
 
 The remaining replays retain their existing roles:
 
@@ -375,7 +383,7 @@ The remaining replays retain their existing roles:
 
 Use three tiers from one provider family for the headline grid so provider differences do not contaminate the tier curve. Pin explicit model IDs and use the same maximum reasoning effort supported by all three anchor tiers. For a GPT-5.6 anchor grid, set `reasoning.effort` to `max`, omit temperature and seed, and do not enable pro mode. Actual reasoning tokens, latency, and cost remain measured outcomes.
 
-For Replays 01 and 04, run every condition × tier cell three times. Complete one unscored vertical slice first, then freeze scored-run materials and execute every scheduled repeat. Publish all transcripts, including failures. Three repeats are exploratory evidence, not a statistically generalizable benchmark.
+For Replay 04 in Tier 1a, run every condition × tier cell three times: 27 scored attempts. Complete one unscored vertical slice first, then freeze scored-run materials and execute every scheduled repeat. Publish all transcripts, including failures. Three repeats are exploratory evidence, not a statistically generalizable benchmark. Replay 01 uses the same experimental architecture when it becomes the first post-ship expansion unless a later approved addendum changes it.
 
 ### Scoring: two headline axes
 
@@ -440,7 +448,7 @@ Record:
 2. `missed_necessary_question` — scorer-judged against frozen ranked unknowns and rubric
 3. `unnecessary_question` — true when already answerable from supplied evidence or immaterial to the requested work
 
-These fields distinguish stable user-specific information from one-time situational information. Do not implement personalization in Tier 1.
+These fields distinguish stable user-specific information from one-time situational information. Do not implement personalization in Tier 1a.
 
 ### Human input burden
 
@@ -482,23 +490,24 @@ The scaffold encodes the operator's own method, and the graded replays come from
 
 ## 6. Scope tiers
 
-- **Tier 1, must ship:** complete and verify the chronological ingest/redaction pipeline; owner-written task brief, ground truth, operator state, and rubric for Replays 01 and 04; episode timeline; public `trajectory.jsonl`; all 54 headline runs from A/B/C × three anchor tiers × three repeats × two replays; complete run provenance, costs, scores, diagnostic recurrence, and human-input burden; hosted self-contained replay interface; README; methods and limitations; and a 90-second video.
-- **Tier 2, after the central experiment ships:** run the cross-provider robustness check on Replay 04 under A/B/C × three repeats using the other provider's frontier model, reported separately from the within-family tier curve. Then add Replays 02, 03, and 05, full classification, primitive-frequency and outcome-leverage charts, and an evidence-backed capability matrix.
+- **Tier 1a, must ship:** preserve the verified existing ingest/redaction pipeline; owner-written task brief, ground truth, operator state, and rubric for Replay 04; a full-trajectory 8–12 episode timeline locating Replay 04 within the transaction; its public `trajectory.jsonl` row; all 27 scored attempts from A/B/C × three anchor tiers × three repeats; complete run provenance, costs, scores, diagnostic recurrence, and human-input burden; hosted self-contained replay interface; README; methods and limitations; and a 90-second video.
+- **First post-ship expansion:** run Replay 01 under the approved experimental architecture.
+- **Tier 2, after Replay 01:** run the cross-provider robustness check on Replay 04 under A/B/C × three repeats using the other provider's frontier model, reported separately from the within-family tier curve. Then add Replays 02, 03, and 05, full classification, primitive-frequency and outcome-leverage charts, and an evidence-backed capability matrix.
 - **Tier 3, later:** add the Dubai corpus as a second real-world trajectory, a design-partner replication, or additional interface and execution features.
 
-Tier 1 contains exactly three experimental conditions. Do not add a raw-context-plus-clarification condition, adaptive dialogue, personalization, a second provider, a live GUI, or any other experiment before shipping. New ideas go to `POST_SHIP.md`; they do not change the Tier 1 plan once approved.
+Tier 1a contains exactly three experimental conditions. Do not add a raw-context-plus-clarification condition, adaptive dialogue, personalization, a second provider, a live GUI, or any other experiment before shipping. New ideas go to `POST_SHIP.md`; they do not change the Tier 1a plan.
 
 ## 7. Build order from the current position
 
 1. Preserve the committed redaction-policy checkpoint. The current 739-event message-and-email corpus passes blocking verification.
-2. Resolve the pending document-ingestion decision before freezing the corpus. After the owner selects and completes the approved approach, merge any resulting rows and rerun redaction and blocking/advisory verification. Agents do not inspect the PDFs or raw rows.
-3. The owner writes and freezes `task_brief.md`, `ground_truth.md`, `operator_state.md`, and `rubric.md` for Replays 01 and 04. Validate structure and redaction without changing substance.
-4. Segment the episode timeline, create the first public trajectory rows, and begin the report skeleton with fictional generated fixtures.
-5. Write the replay implementation plan and obtain owner approval before writing `replay.py`.
-6. Complete one unscored vertical slice through persistence, scoring input, and the visible report. Correct the harness before spending on the experiment.
-7. Freeze prompts, materials, supported settings, retries, and cost limits. Run and publish all 54 scheduled headline attempts, including failures.
-8. Finish scoring, diagnostic-recurrence summaries, input-burden and cost findings, the static report, README, methods and limitations, offline/mobile checks, and the 90-second video.
-9. Ship Tier 1 and prepare the exact delivery message before opening `POST_SHIP.md`.
+2. The owner writes and freezes `task_brief.md`, `ground_truth.md`, `operator_state.md`, and `rubric.md` for Replay 04. Validate structure and redaction without changing substance.
+3. Segment the full transaction timeline into 8–12 episodes and hand-correct the result. Create Replay 04's public trajectory row and begin the report skeleton with fictional generated fixtures.
+4. Write the replay implementation plan and obtain owner approval before writing `replay.py`.
+5. Complete one unscored Replay 04 vertical slice through persistence, scoring input, and the visible report. Correct the harness before spending on the experiment.
+6. Freeze prompts, materials, supported settings, retries, and cost limits. Run and publish all 27 scheduled Tier 1a attempts, including failures.
+7. Finish scoring, diagnostic-recurrence summaries, input-burden and cost findings, the static report, README, methods and limitations, offline/mobile checks, and the 90-second video.
+8. Ship the Replay 04 Tier 1a artifact and prepare the exact delivery message.
+9. Begin Replay 01 as the first post-ship expansion. Resolve the pending document-ingestion decision after Tier 1a ships and before freezing any expanded corpus; merge any resulting rows and rerun redaction and blocking/advisory verification. Agents do not inspect the PDFs or raw rows.
 
 ## 8. Video shot list (90 seconds, Loom-raw)
 
@@ -543,7 +552,7 @@ Use these distinctions consistently in the README, report, video, trajectory, an
 
 State these plainly:
 
-- The corpus covers one owner, one transaction, and two headline decisions; it does not establish cross-user, cross-company, or cross-domain generality.
+- The Tier 1a scored corpus covers one owner, one transaction, and one headline decision; Replay 01 remains defined but unscored until the first post-ship expansion. This does not establish cross-user, cross-company, or cross-domain generality.
 - The owner writes the replay materials and performs or approves scoring, creating one-owner judgment and hindsight risks.
 - Defensible alternatives can earn full decision-quality credit; matching the historical action is recorded separately.
 - A → B is a bundled workflow comparison because B adds a call and a compressed intermediate representation. It does not isolate organization alone.
@@ -575,7 +584,7 @@ Ongoing log: agent failures and corrections, measured classification agreement, 
 - The default screen makes the decision situation, model action, historical action, observed outcome, and concrete work product understandable without interaction.
 - The report works from `file://` with networking disabled. Every headline condition, tier, repeat, and replay control works with zero console errors on desktop and mobile.
 - A stranger clones the repository, runs `make demo` on the synthetic sample, and gets a working report in under two minutes.
-- Replays 01 and 04 include A/B/C × three tiers × three published repeats: 54 scheduled attempts with complete provenance, costs, scores, and no selected-away failures.
+- Replay 04 includes A/B/C × three tiers × three published repeats: 27 scheduled Tier 1a attempts with complete provenance, costs, scores, and no selected-away failures.
 - Owner-written task briefs, ground truths, operator states, and rubrics are frozen and redaction-verified before scored runs.
 - Each replay produces usable work products and separates the stated request, inferred outcome, permissions, recommendation, verification, and follow-up.
 - Findings report both headline axes, existing diagnostic labels with recurrence and unevaluable repeats, human-input burden, calls, tokens, latency, and cost.
