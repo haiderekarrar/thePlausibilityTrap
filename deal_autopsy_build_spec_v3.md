@@ -21,13 +21,15 @@
 - Human input burden is measured.
 - Notebook provenance is confirmed as contemporaneous.
 - Redaction replacement and verification now share one matching policy.
-- Tier 1a execution is narrowed to Replay 04; Replay 01 and document ingestion move behind the first shipped artifact.
+- Tier 1a execution is narrowed to Replay 04; Replay 01 moves behind the first shipped artifact, while document ingestion remains a Tier 1a pre-run requirement.
 
 ## Tier 1a execution addendum
 
 Tier 1a executes Replay 04 under Conditions A, B, and C across three model tiers and three repeats per cell: 27 scored attempts.
 
-Replay 01 is the first post-ship expansion. Document ingestion is deferred until after the Replay 04 artifact ships because the existing iMessage corpus fully supports the headline replay.
+Replay 01 is the first post-ship expansion. Document ingestion remains in Tier 1a and may proceed in parallel with `replay.py` planning and development, synthetic tests, schemas, persistence, and the report skeleton.
+
+Complete document ingestion, merge, redaction, verification, and owner review before generating or freezing the final Replay 04 context pack, running the real Replay 04 vertical slice, or starting any of the 27 scored attempts.
 
 This addendum narrows execution scope only. All other approved v3 architecture, experimental design, provenance, scoring, trajectory, reporting, privacy, and publication requirements remain in force.
 
@@ -116,13 +118,15 @@ Each headline replay contains owner-authored `task_brief.md`, `ground_truth.md`,
 
 ## 3. Pipeline
 
-**Step 1 — Ingest.** One parser per source (iMessage, Gmail, WhatsApp, payments) producing Event rows into `events.jsonl`. Parsers extract VERBATIM — no identity mapping in parsers, ever; identity appears inside message bodies, not just sender fields, so partial mapping anywhere creates unauditable leaks. The existing iMessage corpus fully supports Replay 04. Document ingestion remains a pending owner decision and is deferred until after the Tier 1a artifact ships. The current proposed approach is for the owner to hand-list only deal-relevant facts and transactions from local PDFs in a simple CSV rather than parse the PDFs. Do not treat that approach as approved until the owner selects it. Target after any post-ship expansion: one clean chronological JSONL.
+**Step 1 — Ingest.** One parser per source (iMessage, Gmail, WhatsApp, payments) producing Event rows into `events.jsonl`. Parsers extract VERBATIM — no identity mapping in parsers, ever; identity appears inside message bodies, not just sender fields, so partial mapping anywhere creates unauditable leaks. Document ingestion is required for Tier 1a. The current proposed approach is for the owner to hand-list only deal-relevant facts and transactions from local PDFs in a simple CSV rather than parse the PDFs. Do not treat that approach as approved until the owner selects it. Target: one clean chronological JSONL containing the owner-approved deal-relevant source material.
 
 **Step 2 — Redact.** `mapping.yaml` holds every real string → pseudonym. Replacement and mapped-source verification share one boundary-aware policy: mapped sources match case-insensitively except exact-case `Me` → `ME`, which preserves ordinary lowercase pronouns. Capitalization-equivalent aliases coalesce only when they produce the same pseudonym; collisions fail safely without printing source values. Raw files remain local and never enter agent or replay-model context. A separately authorized, isolated mapping task may inspect extracted identity candidates and `mapping.yaml`; record that exception honestly. No unredacted corpus reaches replay or analysis models. Verification blocks on surviving mapped sources, emails, telephone numbers, and possible street addresses. Generic long-digit sequences remain visible as owner-review advisories; standard UUID-contained digit runs are suppressed as unambiguous structural metadata. Run verification over every model-visible or publishable output, including owner-authored replay files and staged Condition C answers before API use.
 
-**Step 3 — Episodes.** Strong-model pass to segment the timeline into 8–12 episodes (goal, actors, duration, outcome). Hand-correct. This remains early because it creates the visual timeline and helps define replay context windows.
+**Tier 1a corpus gate.** Document ingestion may run in parallel with the approved `replay.py` planning and development process, synthetic tests, schemas, persistence, and the report skeleton. Those parallel paths use invented fixtures or already verified artifacts. Before generating or freezing the final Replay 04 context pack, running the real Replay 04 vertical slice, or beginning the 27 scored attempts, complete document ingestion, merge the resulting rows, rerun redaction and blocking/advisory verification, and complete owner review.
 
-**Step 4 — Replays and report vertical slice.** Before broad classification, complete one headline replay end to end: frozen owner-written minimal task brief, rubric, ground truth, and operator state → redacted context pack → all three conditions for one model → recorded run metadata → scored transcript → visible work product in the report. Start the report skeleton as soon as this vertical slice exists.
+**Step 3 — Episodes.** Use a strong-model pass to segment the full transaction timeline into coherent named episodes based on meaningful changes in goal, actors, situation, or outcome. Aim for roughly 8–12 episodes for report readability, but use fewer or more when the evidence supports it. Hand-correct the result.
+
+**Step 4 — Replays and report vertical slice.** Build schemas, persistence, synthetic tests, and the report skeleton with invented fixtures while document ingestion proceeds. After the Tier 1a corpus gate passes, complete Replay 04 end to end: frozen owner-written minimal task brief, rubric, ground truth, and operator state → final redacted context pack → all three conditions for one model → recorded run metadata → scoring input → visible work product in the report.
 
 **Step 5 — Classify, if the central experiment is working.** Tag outbound actions with one primitive. Routing protocol (verify, then downgrade): hand-label 50 events, run the cheap model on the same 50, and measure agreement. At ≥95%, the cheap model owns the task; below that, fix the prompt and retry or escalate only uncertain rows. Record measured agreement in `NOTES.md`. Do not delay the headline replay experiment for full-corpus classification.
 
@@ -228,7 +232,7 @@ Generate and validate this file from redacted events plus frozen owner-authored 
 
 Before any `replay.py` code, write a concrete implementation plan covering prompt text, schemas, owner-answer handling, run IDs, persistence, retries, scoring inputs, failures, supported parameters, and cost limits; obtain owner approval. This is the remaining Tier 1a approval gate.
 
-For each replay, create one frozen redacted context pack containing events available up to the decision timestamp and nothing afterward. Hold constant across conditions:
+After the Tier 1a corpus gate passes, create one frozen redacted Replay 04 context pack containing events available up to the decision timestamp and nothing afterward. Hold constant across conditions:
 
 - owner-written minimal task brief
 - initial historical context
@@ -383,7 +387,9 @@ The remaining replays retain their existing roles:
 
 Use three tiers from one provider family for the headline grid so provider differences do not contaminate the tier curve. Pin explicit model IDs and use the same maximum reasoning effort supported by all three anchor tiers. For a GPT-5.6 anchor grid, set `reasoning.effort` to `max`, omit temperature and seed, and do not enable pro mode. Actual reasoning tokens, latency, and cost remain measured outcomes.
 
-For Replay 04 in Tier 1a, run every condition × tier cell three times: 27 scored attempts. Complete one unscored vertical slice first, then freeze scored-run materials and execute every scheduled repeat. Publish all transcripts, including failures. Three repeats are exploratory evidence, not a statistically generalizable benchmark. Replay 01 uses the same experimental architecture when it becomes the first post-ship expansion unless a later approved addendum changes it.
+For Replay 04 in Tier 1a, run every condition × tier cell three times: 27 scored attempts. Develop and test the harness against invented fixtures while document ingestion proceeds. After the corpus gate passes, complete one real unscored vertical slice, then freeze scored-run materials and execute every scheduled repeat. Publish all transcripts, including failures. Three repeats are exploratory evidence, not a statistically generalizable benchmark.
+
+Replay 01 uses the same experimental architecture when it becomes the first post-ship expansion unless a later approved addendum changes it.
 
 ### Scoring: two headline axes
 
@@ -490,7 +496,7 @@ The scaffold encodes the operator's own method, and the graded replays come from
 
 ## 6. Scope tiers
 
-- **Tier 1a, must ship:** preserve the verified existing ingest/redaction pipeline; owner-written task brief, ground truth, operator state, and rubric for Replay 04; a full-trajectory 8–12 episode timeline locating Replay 04 within the transaction; its public `trajectory.jsonl` row; all 27 scored attempts from A/B/C × three anchor tiers × three repeats; complete run provenance, costs, scores, diagnostic recurrence, and human-input burden; hosted self-contained replay interface; README; methods and limitations; and a 90-second video.
+- **Tier 1a, must ship:** complete document ingestion, merge, redaction, blocking/advisory verification, and owner review; owner-written task brief, ground truth, operator state, and rubric for Replay 04; a coherent named full-transaction episode timeline locating Replay 04 within the transaction, aiming for roughly 8–12 episodes for report readability while allowing fewer or more when the evidence supports it; its public `trajectory.jsonl` row; all 27 scored attempts from A/B/C × three anchor tiers × three repeats; complete run provenance, costs, scores, diagnostic recurrence, and human-input burden; hosted self-contained replay interface; README; methods and limitations; and a 90-second video.
 - **First post-ship expansion:** run Replay 01 under the approved experimental architecture.
 - **Tier 2, after Replay 01:** run the cross-provider robustness check on Replay 04 under A/B/C × three repeats using the other provider's frontier model, reported separately from the within-family tier curve. Then add Replays 02, 03, and 05, full classification, primitive-frequency and outcome-leverage charts, and an evidence-backed capability matrix.
 - **Tier 3, later:** add the Dubai corpus as a second real-world trajectory, a design-partner replication, or additional interface and execution features.
@@ -500,14 +506,17 @@ Tier 1a contains exactly three experimental conditions. Do not add a raw-context
 ## 7. Build order from the current position
 
 1. Preserve the committed redaction-policy checkpoint. The current 739-event message-and-email corpus passes blocking verification.
-2. The owner writes and freezes `task_brief.md`, `ground_truth.md`, `operator_state.md`, and `rubric.md` for Replay 04. Validate structure and redaction without changing substance.
-3. Segment the full transaction timeline into 8–12 episodes and hand-correct the result. Create Replay 04's public trajectory row and begin the report skeleton with fictional generated fixtures.
-4. Write the replay implementation plan and obtain owner approval before writing `replay.py`.
-5. Complete one unscored Replay 04 vertical slice through persistence, scoring input, and the visible report. Correct the harness before spending on the experiment.
-6. Freeze prompts, materials, supported settings, retries, and cost limits. Run and publish all 27 scheduled Tier 1a attempts, including failures.
-7. Finish scoring, diagnostic-recurrence summaries, input-burden and cost findings, the static report, README, methods and limitations, offline/mobile checks, and the 90-second video.
-8. Ship the Replay 04 Tier 1a artifact and prepare the exact delivery message.
-9. Begin Replay 01 as the first post-ship expansion. Resolve the pending document-ingestion decision after Tier 1a ships and before freezing any expanded corpus; merge any resulting rows and rerun redaction and blocking/advisory verification. Agents do not inspect the PDFs or raw rows.
+2. Begin the document-ingestion track. The owner selects and completes an approved approach for recording only deal-relevant facts and transactions. Agents do not inspect the PDFs or raw rows.
+3. In parallel, the owner writes `task_brief.md`, `ground_truth.md`, `operator_state.md`, and `rubric.md` for Replay 04. Validate structure and redaction without changing substance.
+4. Also in parallel, write the replay implementation plan and obtain owner approval before writing `replay.py`. After approval, build schemas, persistence, synthetic tests, the fixture-driven harness, and the report skeleton with invented data.
+5. Complete document ingestion, merge any resulting rows with the existing events, rerun redaction and blocking/advisory verification, and complete owner review. This gate must pass before the final context pack, real vertical slice, or scored attempts.
+6. Segment the completed full transaction timeline into coherent named episodes based on meaningful changes in goal, actors, situation, or outcome. Aim for roughly 8–12 episodes for report readability, but use fewer or more when the evidence supports it. Hand-correct the result.
+7. Create Replay 04's public trajectory row and generate and freeze its final redacted context pack.
+8. Complete one real unscored Replay 04 vertical slice through persistence, scoring input, and the visible report. Correct the harness before spending on the experiment.
+9. Freeze prompts, materials, supported settings, retries, and cost limits. Run and publish all 27 scheduled Tier 1a attempts, including failures.
+10. Finish scoring, diagnostic-recurrence summaries, input-burden and cost findings, the static report, README, methods and limitations, offline/mobile checks, and the 90-second video.
+11. Ship the Replay 04 Tier 1a artifact and prepare the exact delivery message.
+12. Begin Replay 01 as the first post-ship expansion.
 
 ## 8. Video shot list (90 seconds, Loom-raw)
 
@@ -584,6 +593,7 @@ Ongoing log: agent failures and corrections, measured classification agreement, 
 - The default screen makes the decision situation, model action, historical action, observed outcome, and concrete work product understandable without interaction.
 - The report works from `file://` with networking disabled. Every headline condition, tier, repeat, and replay control works with zero console errors on desktop and mobile.
 - A stranger clones the repository, runs `make demo` on the synthetic sample, and gets a working report in under two minutes.
+- Document ingestion, merge, redaction, blocking/advisory verification, and owner review are complete before the final Replay 04 context pack, real vertical slice, or scored attempts.
 - Replay 04 includes A/B/C × three tiers × three published repeats: 27 scheduled Tier 1a attempts with complete provenance, costs, scores, and no selected-away failures.
 - Owner-written task briefs, ground truths, operator states, and rubrics are frozen and redaction-verified before scored runs.
 - Each replay produces usable work products and separates the stated request, inferred outcome, permissions, recommendation, verification, and follow-up.

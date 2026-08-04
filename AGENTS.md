@@ -9,7 +9,9 @@
 
 - Execute Replay 04 only under Conditions A, B, and C across three model tiers and three repeats per cell: 27 scored attempts.
 - Replay 01 is the first post-ship expansion.
-- Defer document ingestion until after the Replay 04 artifact ships; the existing iMessage corpus fully supports Tier 1a.
+- Keep document ingestion in the Tier 1a pre-run path. It may proceed in parallel with `replay.py` planning and development, synthetic tests, schemas, persistence, and the report skeleton.
+- Complete document ingestion, merge, redaction, blocking/advisory verification, and owner review before generating or freezing the final Replay 04 context pack, running the real Replay 04 vertical slice, or beginning the 27 scored attempts.
+- Use a strong-model pass to segment the full transaction timeline into coherent named episodes based on meaningful changes in goal, actors, situation, or outcome. Aim for roughly 8–12 episodes for report readability, but use fewer or more when the evidence supports it. Hand-correct the result.
 - All other approved v3 requirements remain in force.
 
 ## Product Goal
