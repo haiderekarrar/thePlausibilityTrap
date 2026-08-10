@@ -75,7 +75,8 @@ A public GitHub repository, one hosted URL, and one self-contained HTML report t
 raw/                  # real exports (NEVER committed, NEVER read by the coding agent)
 sample/               # tiny synthetic corpus, committed, so others can run the pipeline
 src/
-  ingest.py           # every source -> events.jsonl (verbatim extraction, no identity logic)
+  ingest.py           # communication exports -> events.jsonl (verbatim, no identity logic)
+  ingest_documents.py # owner-authored document CSV -> events.jsonl (offline)
   redact.py           # ALL identity transformation, in exactly one place
   episodes.py         # strong-model pass: segment timeline into named episodes
   classify.py         # cheap-model pass: tag each action with a primitive
@@ -102,7 +103,7 @@ mapping.yaml          # real string -> pseudonym (NEVER committed)
 class Event(BaseModel):
     id: str
     timestamp: datetime
-    channel: Literal["email", "imessage", "whatsapp", "bank", "invoice", "payment_app"]
+    channel: Literal["email", "imessage", "whatsapp", "bank", "document", "invoice", "payment_app"]
     actor: str            # verbatim from source; pseudonymized later by redact.py
     counterparty: str
     text: str
@@ -118,7 +119,7 @@ Each headline replay contains owner-authored `task_brief.md`, `ground_truth.md`,
 
 ## 3. Pipeline
 
-**Step 1 — Ingest.** One parser per source (iMessage, Gmail, WhatsApp, payments) producing Event rows into `events.jsonl`. Parsers extract VERBATIM — no identity mapping in parsers, ever; identity appears inside message bodies, not just sender fields, so partial mapping anywhere creates unauditable leaks. Document ingestion is required for Tier 1a. The current proposed approach is for the owner to hand-list only deal-relevant facts and transactions from local PDFs in a simple CSV rather than parse the PDFs. Do not treat that approach as approved until the owner selects it. Target: one clean chronological JSONL containing the owner-approved deal-relevant source material.
+**Step 1 — Ingest.** One parser per source (iMessage, Gmail, documents, WhatsApp, payments) producing Event rows into `events.jsonl`. Parsers extract VERBATIM — no identity mapping in parsers, ever; identity appears inside message bodies, not just sender fields, so partial mapping anywhere creates unauditable leaks. Document ingestion is required for Tier 1a. The approved approach is for the owner to hand-list only deal-relevant facts and transactions from local PDFs in a simple CSV rather than parse the PDFs. Use the exact email-received time as the Event timestamp. Use neutral owner-assigned source identifiers such as `document_001.pdf`, never original PDF filenames. Use `document` for quotes, estimates, and proposals; reserve `invoice` for actual invoices. Target: one clean chronological JSONL containing the owner-approved deal-relevant source material.
 
 **Step 2 — Redact.** `mapping.yaml` holds every real string → pseudonym. Replacement and mapped-source verification share one boundary-aware policy: mapped sources match case-insensitively except exact-case `Me` → `ME`, which preserves ordinary lowercase pronouns. Capitalization-equivalent aliases coalesce only when they produce the same pseudonym; collisions fail safely without printing source values. Raw files remain local and never enter agent or replay-model context. A separately authorized, isolated mapping task may inspect extracted identity candidates and `mapping.yaml`; record that exception honestly. No unredacted corpus reaches replay or analysis models. Verification blocks on surviving mapped sources, emails, telephone numbers, and possible street addresses. Generic long-digit sequences remain visible as owner-review advisories; standard UUID-contained digit runs are suppressed as unambiguous structural metadata. Run verification over every model-visible or publishable output, including owner-authored replay files and staged Condition C answers before API use.
 

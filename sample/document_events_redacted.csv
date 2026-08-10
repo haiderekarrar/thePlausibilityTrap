@@ -1,0 +1,5 @@
+timestamp,channel,actor,counterparty,text,amount,source_file
+2022-01-15T09:30:00-06:00,document,VENDOR_A,ME,Fictional repair estimate received.,1250.50,document_001.pdf
+2022-01-16T10:45:00-06:00,invoice,VENDOR_B,ME,Fictional final invoice received.,980.00,document_002.pdf
+2022-01-17T12:00:00-06:00,bank,BANK_A,VENDOR_B,Fictional payment recorded.,980.00,document_003.pdf
+2022-01-18T14:15:00-06:00,payment_app,ME,VENDOR_C,Fictional transfer confirmation received.,,document_004

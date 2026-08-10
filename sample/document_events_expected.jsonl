@@ -1,0 +1,4 @@
+{"id":"document_event:000001","timestamp":"2022-01-15T09:30:00-06:00","channel":"document","actor":"VENDOR_A","counterparty":"ME","text":"Fictional repair estimate received.","amount":1250.5,"source_file":"document_001.pdf"}
+{"id":"document_event:000002","timestamp":"2022-01-16T10:45:00-06:00","channel":"invoice","actor":"VENDOR_B","counterparty":"ME","text":"Fictional final invoice received.","amount":980.0,"source_file":"document_002.pdf"}
+{"id":"document_event:000003","timestamp":"2022-01-17T12:00:00-06:00","channel":"bank","actor":"BANK_A","counterparty":"VENDOR_B","text":"Fictional payment recorded.","amount":980.0,"source_file":"document_003.pdf"}
+{"id":"document_event:000004","timestamp":"2022-01-18T14:15:00-06:00","channel":"payment_app","actor":"ME","counterparty":"VENDOR_C","text":"Fictional transfer confirmation received.","amount":null,"source_file":"document_004"}

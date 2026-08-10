@@ -43,6 +43,7 @@
 - All identity transformation happens only in `redact.py` via `mapping.yaml`.
 - This includes mapping the user's own name and `Me` to `ME`; do not special-case this in parsers.
 - Keep parser output literal so the later leak-check grep remains simple and reliable.
+- Document CSV rows use neutral owner-assigned source identifiers such as `document_001.pdf`, never original PDF filenames.
 
 ## Working Style
 
@@ -50,6 +51,7 @@
 - Explain and obtain approval before substantive, irreversible, schema, scoring, or scope changes.
 - Small reversible corrections within an approved task may be applied after they are explained; show the diff before committing.
 - Briefly explain non-obvious choices while working.
+- Surface an implementation tradeoff only when it materially affects current correctness, privacy, interpretability, or approved scope.
 - Do not produce code that could not be explained clearly in an interview.
 - If a clever approach seems necessary, flag it and explain why before using it.
 - Do not let beginner explanations stall delivery. Explain briefly, implement approved work, and revisit concepts when asked.

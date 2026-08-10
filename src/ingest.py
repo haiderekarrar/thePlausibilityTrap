@@ -23,7 +23,15 @@ IMESSAGE_TIMEZONE = ZoneInfo("America/Los_Angeles")
 class Event(BaseModel):
     id: str
     timestamp: datetime
-    channel: Literal["email", "imessage", "whatsapp", "bank", "invoice", "payment_app"]
+    channel: Literal[
+        "email",
+        "imessage",
+        "whatsapp",
+        "bank",
+        "document",
+        "invoice",
+        "payment_app",
+    ]
     actor: str
     counterparty: str
     text: str
