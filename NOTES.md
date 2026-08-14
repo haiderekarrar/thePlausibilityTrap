@@ -79,3 +79,62 @@ A running record of decisions, failures, corrections, and surprises while buildi
 **Tier 1a execution addendum.** Tier 1a narrows scored execution to Replay 04 under Conditions A, B, and C across three model tiers and three repeats per cell: 27 scored attempts. Replay 01 becomes the first post-ship expansion. Document ingestion may proceed in parallel with replay planning and development, synthetic tests, schemas, persistence, and the report skeleton, but ingestion, merge, redaction, verification, and owner review must finish before the final Replay 04 context pack, real vertical slice, or scored attempts. All other approved v3 architecture, experimental, provenance, scoring, trajectory, reporting, privacy, and publication requirements remain in force.
 
 **Episode segmentation correction.** Segment the full transaction timeline into coherent named episodes around meaningful changes in goal, actors, situation, or outcome. Roughly 8–12 episodes is a report-readability target rather than a quota; use fewer or more when the evidence supports it, then hand-correct the result.
+
+---
+
+## Replay 04 manual pilot — Phase 0
+
+This section records pilot setup and methodology observations only. It is not a result from the scored experiment and must not enter experimental-agent evidence or input.
+
+**Pilot setup failure.** The initial corpus audit incorrectly concluded that no earlier approximately-$150K offer history existed. The evidence was present, but a long-running search returned no immediate output and the agent failed to await completion. This demonstrates that agentic knowledge-work reliability depends not only on reasoning quality but also on correct tool-state handling and retrieval completion.
+
+**Corrected earlier-offer evidence.** The pre-cutoff corpus contains two distinct earlier approximately-$150K offer communications. V1 conclusions use that corpus-supported communication-level distinction and do not rely on additional private owner recollection.
+
+**Pilot interpretation, not a scored-experiment conclusion.** Two similar-price communications are stronger evidence of the relevant market level than one isolated communication. This can matter when interpreting the later decision-triggering offer, but it does not change the experimental cutoff or require a redesign of Replay 04.
+
+**Final Phase 0 conclusion.** Replay 04 passes the viability gate for the stripped-down manual pilot.
+
+Historical cutoff methodology:
+
+- Use the first timestamped outbound response to the decision-triggering offer as the cutoff.
+- Include only events timestamped before that response; exclude the response and every later event.
+- Preserve eligible inbound material immediately before the response, but suppress untimestamped reaction metadata whose timing cannot be established as pre-response.
+
+The eligible pre-cutoff corpus contains meaningful contemporaneous evidence including:
+
+- the owner's sell-soon objective and decision authority;
+- property condition, repair, and sale-preparation history;
+- agent valuations and pricing posture;
+- earlier investor-offer communications and the owner's responses;
+- listing activity and recent market signals;
+- the decision-triggering offer and its known headline terms.
+
+Material gaps remain, including the complete formal offer and some contractual terms, proof of funds, and some unavailable or untranscribed phone and audio context. These gaps are allowed to remain unknown. A competent agent should identify material uncertainty rather than have the experiment retroactively fill every missing detail.
+
+## 2026-08-12 — Replay 04 pilot follow-up descriptive checks
+
+The initial exploratory Work pilot consists of A1, B1, and C1. Review of those runs surfaced several useful descriptive observations that were not preregistered before those runs. They therefore remain post-hoc/exploratory for A1/B1/C1.
+
+Before running the bounded A2/B2 follow-up, the following descriptive checks were frozen for A2 and B2 only:
+
+1. **Known prior-offer recovery** — record how many of the two known earlier approximately-$150K offer communications are recovered: 0/2, 1/2, or 2/2. An offer counts as recovered only if the response identifies it as a distinct earlier approximately-$150K offer communication. A generic statement that there had previously been approximately-$150K investor interest does not count as recovering both offers.
+2. **Evidence integration** — if either prior offer is recovered, record whether it is meaningfully integrated into the final reasoning. Meaningful integration means the recovered evidence is used to support, modify, constrain, or compare the recommendation, price range, confidence, or fallback policy. Merely listing or mentioning the evidence does not count.
+3. **Unsupported factual claims** — record any material factual claim presented as established without visible support in the supplied evidence.
+4. **Opening action** — record the initial recommended action and relevant price/terms.
+5. **Fallback policy** — record what the model recommends if the opening move is rejected or the buyer holds firm.
+
+These are descriptive checks, not new rubric scores or headline metrics. The existing frozen rubric remains the scoring rubric.
+
+A2 and B2 are sensitivity/follow-up runs using the same respective treatment procedures as A1 and B1. Their prompts or context were not altered in response to the exploratory findings above, and the models were not shown results from earlier pilot runs.
+
+Visible recovery varied across nominally identical structured passes: B1 and B2 each surfaced one of the two earlier communications, but not the same one, while C1 surfaced both during its structured stage before asking clarification questions. These are run-level observations, not retrieval-rate estimates. Clarification must not be credited for C1's pre-clarification retrieval.
+
+Retrieval and integration remain distinct: surfacing an earlier communication does not establish that it materially affected the recommendation. A versus B is also a bundled comparison because B adds both a structured intermediate representation and another opportunity to search and reason; the pilot cannot isolate which part caused any observed difference.
+
+Unless A2/B2 exposed a necessary experimental defect, no additional pilot conditions or repeats were to be added before scoring and analysis.
+
+## 2026-08-12: V1 execution reconciliation
+
+The v3 design planned a 27-attempt Replay 04 grid. The later nine-run manual pilot was created to inform that design and explicitly did not replace it. What actually ran in Work was the exploratory A1/B1/C1 pilot plus the bounded A2/B2 follow-up; a separate Codex A1 remains a side observation. The owner later decided to ship those five Work runs as an exploratory V1 rather than mechanically complete either stale grid. The unexecuted pilot remainder and 27-attempt design are deferred, not completed.
+
+The follow-up descriptive checks and stop rule immediately above were recorded locally before A2 and B2 began. Preserved local metadata places the `NOTES.md` modification before both Codex run start times, although the note was not committed before the runs. Describe them as pre-run descriptive checks recorded in `NOTES.md`, not Git-preregistered metrics. The frozen rubric remains unchanged, disputed owner scoring remains open, and `V1_STATUS.md` records the current findings and interpretation boundaries.

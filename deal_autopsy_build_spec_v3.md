@@ -2,9 +2,11 @@
 
 **STATUS: FROZEN FOR TIER 1a EXECUTION.**
 
+> **Historical design record:** This specification preserves the Tier 1a plan as frozen. The later owner-approved decision in `V1_STATUS.md` ships an exploratory Replay 04 manual pilot plus bounded follow-up as V1; the unexecuted remainder of the nine-run pilot and the 27-attempt grid are deferred, not completed.
+
 **Central thesis:** Deal Autopsy turns the redacted digital exhaust of a real $226K distressed-property sale into a reproducible test of whether structured context and targeted clarification help an AI convert a short human request and messy evidence into correct, evidence-grounded, executable work while respecting human authority boundaries.
 
-**What the finished artifact should demonstrate:** You can test models against consequential real-world decisions, ship clean code and a tested interface, understand knowledge work outside SF because the corpus comes from your own life, and recognize a valuable data class before anyone asks: a long trajectory linking messy context to decisions and delayed outcomes.
+**What the finished artifact should demonstrate:** You can test models against consequential real-world decisions, ship clean code and a tested interface, understand real knowledge work because you operated the underlying transaction yourself, and recognize a valuable data class before anyone asks: a long trajectory linking messy context to decisions and delayed outcomes.
 
 **Framing rule for the README and video:** This is not a "% correct" benchmark, a general model benchmark, or a general-purpose product. It is a real-trajectory evaluation case study. Real knowledge work arrives as messy context and a short request whose objective, constraints, proxy goals, dependencies, and authority boundaries may be incomplete. The experiment compares model capability, a two-stage structured workflow, and targeted clarification. Added calls, compressed representations, latency, cost, and owner input are measured tradeoffs rather than hidden sources of improvement.
 
@@ -601,4 +603,4 @@ Ongoing log: agent failures and corrections, measured classification agreement, 
 - Findings report both headline axes, existing diagnostic labels with recurrence and unevaluable repeats, human-input burden, calls, tokens, latency, and cost.
 - `trajectory.jsonl` links each completed replay's prior state, decision, action, and outcome without invented substantive content.
 - Displayed counts are generated from artifacts, blocking privacy verification passes, advisories receive owner review, and every public product claim points to evidence or is labeled as a hypothesis.
-- Gabriel watches 90 seconds and understands the concrete work, the unique insight, and the exact result without being told that you are capable. All true = ship.
+- A technically sophisticated AI/product leader watches 90 seconds and understands the concrete work, the unique insight, and the exact result without being told that you are capable. All true = ship.

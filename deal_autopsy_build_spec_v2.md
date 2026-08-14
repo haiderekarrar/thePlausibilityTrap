@@ -2,7 +2,7 @@
 
 **One-line pitch:** Turn the redacted digital exhaust of a real $226K distressed-property sale into a reproducible test of the missing knowledge-work interface: can structured reasoning and targeted clarification help models discover what the operator actually wants and produce a better next action?
 
-**What the finished artifact should demonstrate:** You can test agents against consequential real-world decisions, ship clean code and a tested interface, understand knowledge work outside SF because the corpus comes from your own life, and recognize a valuable data class before anyone asks: a long trajectory linking messy context to decisions and delayed outcomes.
+**What the finished artifact should demonstrate:** You can test agents against consequential real-world decisions, ship clean code and a tested interface, understand real knowledge work because you operated the underlying transaction yourself, and recognize a valuable data class before anyone asks: a long trajectory linking messy context to decisions and delayed outcomes.
 
 **Framing rule for the README and video:** This is explicitly not a "% correct" benchmark or a general-purpose product. It is a real-trajectory evaluation case study. Real knowledge work arrives as messy context with an under-specified goal; the operator in this deal did not fully know how to express what he wanted either, and "the most money, safely, fast" contained conflicting parts. The experiment compares performance across model capability, a two-stage structured workflow, and clarification from the operator. Added calls and cost are measured tradeoffs, not independent sources of improvement.
 
@@ -290,4 +290,4 @@ Ongoing log: agent failures and corrections, measured classification agreement, 
 - Replays 1 and 4 include A/B/C × three tiers × three published repeats with complete provenance, costs, scores, and no selected-away failures.
 - `trajectory.jsonl` links each completed replay's prior state, decision, action, and outcome without invented substantive content.
 - Displayed counts are generated from artifacts, privacy verification is green, and every public product claim points to evidence or is labeled as a hypothesis.
-- Gabriel watches 90 seconds and understands the concrete work, the unique insight, and the exact result without being told that you are capable. All true = ship.
+- A technically sophisticated AI/product leader watches 90 seconds and understands the concrete work, the unique insight, and the exact result without being told that you are capable. All true = ship.

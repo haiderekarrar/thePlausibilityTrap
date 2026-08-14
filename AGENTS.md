@@ -2,21 +2,22 @@
 
 ## Source of Truth
 
-- `deal_autopsy_build_spec_v3.md` replaces the earlier build specifications and is the source of truth for Tier 1 architecture and Tier 1a execution.
-- The `replay.py` implementation plan required by v3 is the remaining approval gate before any `replay.py` code is written.
+- `deal_autopsy_build_spec_v3.md` remains the source of truth for the broader Tier 1 architecture and the historical Tier 1a design.
+- `V1_STATUS.md` is the current additive execution addendum. Its later owner-approved V1 decision supersedes the unexecuted v3 run-count and build-order requirements without rewriting what v3 originally planned.
+- No `replay.py` code is in V1 scope. Any future replay harness still requires the written implementation plan and owner approval required by v3.
 
-## Tier 1a Execution Scope
+## Current V1 Scope
 
-- Execute Replay 04 only under Conditions A, B, and C across three model tiers and three repeats per cell: 27 scored attempts.
-- Replay 01 is the first post-ship expansion.
-- Keep document ingestion in the Tier 1a pre-run path. It may proceed in parallel with `replay.py` planning and development, synthetic tests, schemas, persistence, and the report skeleton.
-- Complete document ingestion, merge, redaction, blocking/advisory verification, and owner review before generating or freezing the final Replay 04 context pack, running the real Replay 04 vertical slice, or beginning the 27 scored attempts.
-- Use a strong-model pass to segment the full transaction timeline into coherent named episodes based on meaningful changes in goal, actors, situation, or outcome. Aim for roughly 8–12 episodes for report readability, but use fewer or more when the evidence supports it. Hand-correct the result.
-- All other approved v3 requirements remain in force.
+- V1 is an exploratory Replay 04 case study based on five Work runs: A1, B1, C1, A2, and B2. A separate Codex A1 remains a side observation.
+- The manual pilot originally informed rather than replaced the larger v3 design. A3/B3/C2/C3 and the 27-attempt Tier 1a grid were not run and are deferred, not completed.
+- Do not add model runs, conditions, repeats, a replay harness, or scoring changes to V1 without a new explicit owner approval.
+- Preserve the completed-run materials and the frozen manual-pilot rubric. Do not silently finalize disputed owner scoring.
+- Treat all pilot findings as exploratory and obey the interpretation and publication boundaries in `V1_STATUS.md`.
 
 ## Product Goal
 
-- This is a hiring demo showing how an interface can help a person discover and communicate an underspecified intention, then turn messy context into an executable next action.
+- This is a public technical case study evaluating how structured workflow and targeted clarification affect an AI's ability to turn an underspecified request and messy evidence into grounded, actionable work while preserving human authority.
+- Keep the core repository and artifact audience-neutral and evidence-led. Hiring- or employer-specific positioning belongs in outreach/application materials rather than the core research framing, and do not phrase an experimental hypothesis as though its result is already established.
 - When the spec does not choose between implementation paths, choose the one that gets a complete, user-visible workflow working sooner. Do not sacrifice correctness, privacy, or required verification.
 - Prioritize the replay interface and a working end-to-end vertical slice over reusable infrastructure, broad analytics, or extra documentation.
 - Every public claim must point to a transcript, test, measured result, or concrete artifact. Label unsupported conclusions as hypotheses.
@@ -24,10 +25,12 @@
 ## Privacy and Model Boundaries
 
 - Never inspect, print, summarize, or send the contents of `raw/`. Scripts may process `raw/` locally when explicitly requested.
+- Reserve `raw/` and "raw" for private unredacted source material. Describe model-visible experimental context as "unstructured redacted context" or "redacted evidence" so future plans do not imply that replay models receive `raw/`.
 - `mapping.yaml` and private derived candidate files may be inspected only in a separately authorized mapping task. Treat that as a scoped exception, not standing access.
 - Do not quote private source values in chat responses, logs, exceptions, commit messages, `NOTES.md`, or public artifacts.
 - Replay and analysis model calls receive redacted artifacts only. `ingest.py` and `redact.py` remain offline by construction and must not import network clients.
 - All committed fixtures and `sample/` data are invented. Never derive sample text from `raw/`, even in edited form.
+- Before configuring the first public remote or making the first public push, perform a bounded history-level privacy audit of every commit and file reachable from `master`; confirm that no non-public material entered that history. This release check is separate from redaction verification for model-visible artifacts.
 - Before anything is committed, `.gitignore` must contain `raw/`, `mapping.yaml`, and `.env`.
 
 ## Constraints
@@ -80,7 +83,7 @@
 - Decision-quality scoring must permit defensible alternatives supported by contemporaneous evidence. Report historical-action matching separately; never use it by itself as the quality score.
 - Retry only attempts that fail before a model response because of a timeout, rate limit, transport error, or provider 5xx error. A completed refusal, malformed response, or poor answer remains the recorded result for that scheduled run and is never rerolled.
 - Run replays honestly and publish the results whatever they show, including results that flatter the models or complicate the project's thesis.
-- Publish all scheduled repeats rather than selecting the strongest transcript.
+- Publish all five executed V1 Work runs rather than selecting the strongest transcript. A future approved experiment must publish every attempt scheduled by its own frozen plan.
 
 ## Run Provenance
 
