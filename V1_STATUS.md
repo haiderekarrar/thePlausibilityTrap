@@ -57,7 +57,25 @@ Do not collapse visible recovery, evidence integration, source coverage, claim d
 
 The frozen manual-pilot rubric and STRONG RUN definition remain unchanged. Prior-offer recovery, evidence integration, unsupported factual claims, opening action, and fallback policy were identified post hoc for A1/B1/C1. `NOTES.md` records those descriptive checks and the stop rule before A2/B2; preserved local file and Codex thread metadata support that ordering. Because the note was not committed before the runs, describe the checks as locally recorded pre-run descriptive checks, not Git-preregistered metrics.
 
-Do not silently finalize disputed owner scoring. The STRONG RUN classification may be reported after owner adjudication, but it is not the sole headline. V1 is exploratory and does not support model-general, provider-general, population, or causal claims.
+## Final V1 score lock (2026-08-14)
+
+A1, B1, and C1 had earlier provisional/reconstructed scoring history. A2 and B2 were scored later under the same frozen rubric. The owner then explicitly adjudicated A1/A2 Evidence Retrieval and C1 Actionability. The following scores are final for V1:
+
+| Run | Objective | Retrieval | Discipline | Uncertainty | Decision | Actionability | Authority | Total | STRONG? |
+|---|---:|---:|---:|---:|---:|---:|---:|---:|---|
+| A1 | 2 | 1 | 1 | 2 | 1 | 2 | 2 | 11 | Yes |
+| A2 | 2 | 1 | 1 | 2 | 1 | 2 | 2 | 11 | Yes |
+| B1 | 2 | 1 | 2 | 2 | 1 | 2 | 2 | 12 | Yes |
+| B2 | 2 | 1 | 2 | 2 | 1 | 2 | 2 | 12 | Yes |
+| C1 | 2 | 2 | 2 | 2 | 2 | 2 | 2 | 14 | Yes |
+
+**A-run Retrieval adjudication.** A1 and A2 are locked at `1`. The omitted prior-offer history is material, but the owner does not judge it to be "major load-bearing evidence" under the rubric's `0` anchor. Both runs found important evidence while missing material pieces, matching the rubric's `1` anchor.
+
+**C1 Actionability adjudication.** C1 is locked at `2`. It supplied a clear immediate recommendation, a specific `$235K` counter, fallback guidance, and a usable draft while preserving owner approval. The rubric does not require every due-diligence safeguard to be repeated inside the draft.
+
+All five runs officially meet the rubric's STRONG threshold. This `5/5` count is not a headline scientific finding: under the plausible alternate interpretation that A1/A2 Retrieval should be `0`, the count would be `3/5`. The count is therefore anchor-sensitive even though the official scores remain locked.
+
+The score lock does not alter the interpretation boundaries above. All five runs produced broadly defensible recommendations; visible evidence reconstruction differed materially; retrieval and integration remained distinct; and opening recommendations stayed relatively stable. The five runs do not complete the original manual-pilot or Tier 1a designs and do not establish causal or stable condition-level effects.
 
 No additional model run, pilot condition, repeat, harness, prompt change, rubric change, or transcript change is authorized for V1 by this addendum.
 
