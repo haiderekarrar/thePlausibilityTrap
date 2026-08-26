@@ -8,16 +8,19 @@
 
 ## Current V1 Scope
 
-- V1 is an exploratory Replay 04 case study based on five Work runs: A1, B1, C1, A2, and B2. A separate Codex A1 remains a side observation.
+- V1, publicly titled **The Plausibility Trap**, is an exploratory Replay 04 case study based on five Work runs: A1, B1, C1, A2, and B2. A separate Codex A1 remains a side observation.
 - The manual pilot originally informed rather than replaced the larger v3 design. A3/B3/C2/C3 and the 27-attempt Tier 1a grid were not run and are deferred, not completed.
 - Do not add model runs, conditions, repeats, a replay harness, or scoring changes to V1 without a new explicit owner approval.
-- Preserve the completed-run materials and the frozen manual-pilot rubric. Do not silently finalize disputed owner scoring.
+- Preserve the completed-run materials, frozen manual-pilot rubric, and final V1 score lock. Do not rescore V1 without explicit owner approval.
 - Treat all pilot findings as exploratory and obey the interpretation and publication boundaries in `V1_STATUS.md`.
 
 ## Product Goal
 
-- This is a public technical case study evaluating how structured workflow and targeted clarification affect an AI's ability to turn an underspecified request and messy evidence into grounded, actionable work while preserving human authority.
+- This is a public technical case study of one historical decision replay and five runs, focused on inspectable evidence, inference, uncertainty, judgment, recommendations, and human authority.
+- Treat historical decision replay as the method used in this exploratory case, not as a universally validated framework. **The Plausibility Trap** is V1's public title and framing, not a settled umbrella thesis; no public umbrella name has been chosen.
 - Keep the core repository and artifact audience-neutral and evidence-led. Hiring- or employer-specific positioning belongs in outreach/application materials rather than the core research framing, and do not phrase an experimental hypothesis as though its result is already established.
+- Lead with the strongest claim the evidence supports. State what happened and what it means clearly, place caveats where they become relevant, and do not confuse intellectual caution with timid or apologetic writing.
+- Describe observable recorded artifacts and traces without presenting them as hidden model cognition. Preserve distinctions among evidence found in worker work, propagated to a parent, represented explicitly, integrated later, and exposed in a final answer when the record supports them.
 - When the spec does not choose between implementation paths, choose the one that gets a complete, user-visible workflow working sooner. Do not sacrifice correctness, privacy, or required verification.
 - Prioritize the replay interface and a working end-to-end vertical slice over reusable infrastructure, broad analytics, or extra documentation.
 - Every public claim must point to a transcript, test, measured result, or concrete artifact. Label unsupported conclusions as hypotheses.
