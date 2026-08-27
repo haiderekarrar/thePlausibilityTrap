@@ -53,6 +53,7 @@
 
 ## Working Style
 
+- Git should preserve a high-resolution, truthful development history. Every meaningful completed unit of work should normally receive its own substantive commit before moving on to the next unit. Do not manufacture, backdate, or fragment commits merely to increase commit count. Prefer atomic commits that correspond to real decisions, experiments, corrections, implementations, or publication milestones.
 - Keep tasks small so diffs stay readable.
 - Explain and obtain approval before substantive, irreversible, schema, scoring, or scope changes.
 - Small reversible corrections within an approved task may be applied after they are explained; show the diff before committing.
