@@ -57,6 +57,8 @@ A later independent primary-record audit separated observable locations in the r
 | B2 | One landmark appeared across the retained workflow | That landmark appeared in the structured representation; it was not explicitly carried into the final answer |
 | C1 | Both landmarks appeared before clarification | Both were comparatively represented before clarification |
 
+Analysis and coding used the complete retained records. The public package exposes only publication-reviewed excerpts and marked transformations; publication status did not determine coding.
+
 These are properties of recorded artifacts, not claims about hidden cognition. The omissions in A2's and B1's final answers could reflect multiple unresolved mechanisms, including reasonable relevance filtering: the earlier offers were similar in amount and preceded later renovation and sale-preparation work. Do not label the omissions as failure, compression loss, forgetting, intelligent filtering, or any other mechanism without additional evidence.
 
 A final output alone is a lossy view of recorded agent work in both directions: missing evidence may reflect work that never occurred, or earlier work that occurred but was not exposed in the final answer. This audit establishes that distinction in these records; it does not establish a general law about agents or stable condition-level rates.

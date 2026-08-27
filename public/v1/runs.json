@@ -1,0 +1,264 @@
+{
+  "study": {
+    "title": "The Plausibility Trap",
+    "historical_scenarios": 1,
+    "executed_runs": 5,
+    "prior_offer_labels": {
+      "PRIOR_OFFER_A": "Earlier direct cash indication communicated through one intermediary",
+      "PRIOR_OFFER_B": "Separate investor indication following a property visit"
+    }
+  },
+  "runs": [
+    {
+      "run_id": "A1",
+      "condition": "A",
+      "started_at": "2026-08-10T23:38:55.741Z",
+      "model": {
+        "provider": "OpenAI",
+        "id": "gpt-5.6-sol",
+        "reasoning_effort": "ultra"
+      },
+      "opening_recommendation": {
+        "action": "Keep the offer alive, verify terms, and counter after a short market check",
+        "counter": 240000,
+        "target": 235000
+      },
+      "system_recovery": {
+        "observation_scope": "complete retained recorded parent/worker workflow",
+        "PRIOR_OFFER_A": false,
+        "PRIOR_OFFER_B": false,
+        "count": 0
+      },
+      "parent_representation": {
+        "observation_scope": "parent-facing work and final answer",
+        "PRIOR_OFFER_A": false,
+        "PRIOR_OFFER_B": false,
+        "count": 0
+      },
+      "final_output_reference": "transcripts/A1.md#turn-1---agent-final-answer",
+      "visible_integration_summary": "Neither prior-offer landmark appeared in the retained recorded workflow or final answer.",
+      "clarification_summary": "No clarification stage.",
+      "score": {
+        "objective": 2,
+        "retrieval": 1,
+        "discipline": 1,
+        "uncertainty": 2,
+        "decision": 1,
+        "actionability": 2,
+        "authority": 2,
+        "total": 11,
+        "strong": true
+      },
+      "trace_manifest": "traces/A1.md",
+      "receipt_refs": [
+        "receipts/A1.md#opening-recommendation",
+        "receipts/A1.md#prior-offer-recovery",
+        "receipts/A1.md#249900-evidence-status"
+      ],
+      "transcript_ref": "transcripts/A1.md",
+      "source_record_sha256": "7233e578d93413c3a94e8494aa851231f5172f2705388f045c2ef909ca9db387"
+    },
+    {
+      "run_id": "A2",
+      "condition": "A",
+      "started_at": "2026-08-12T22:30:58.096Z",
+      "model": {
+        "provider": "OpenAI",
+        "id": "gpt-5.6-sol",
+        "reasoning_effort": "ultra"
+      },
+      "opening_recommendation": {
+        "action": "Use a short one-round negotiation",
+        "counter": 235000,
+        "target": 230000
+      },
+      "system_recovery": {
+        "observation_scope": "complete retained recorded parent/worker workflow",
+        "PRIOR_OFFER_A": true,
+        "PRIOR_OFFER_B": true,
+        "count": 2
+      },
+      "parent_representation": {
+        "observation_scope": "final parent-facing answer",
+        "PRIOR_OFFER_A": false,
+        "PRIOR_OFFER_B": false,
+        "count": 0
+      },
+      "final_output_reference": "transcripts/A2.md#turn-1---agent-final-answer",
+      "visible_integration_summary": "A returned worker result contained both landmarks; neither appeared in the final parent-facing answer.",
+      "clarification_summary": "No clarification stage.",
+      "score": {
+        "objective": 2,
+        "retrieval": 1,
+        "discipline": 1,
+        "uncertainty": 2,
+        "decision": 1,
+        "actionability": 2,
+        "authority": 2,
+        "total": 11,
+        "strong": true
+      },
+      "trace_manifest": "traces/A2.md",
+      "receipt_refs": [
+        "receipts/A2.md#opening-recommendation",
+        "receipts/A2.md#prior-offer-recovery",
+        "receipts/A2.md#249900-evidence-status"
+      ],
+      "transcript_ref": "transcripts/A2.md",
+      "source_record_sha256": "8abc2f7ca4b0ff29989509c11b30383ac3e85dfad891abfe9d544165ae1c80f4"
+    },
+    {
+      "run_id": "B1",
+      "condition": "B",
+      "started_at": "2026-08-10T23:47:54.761Z",
+      "model": {
+        "provider": "OpenAI",
+        "id": "gpt-5.6-sol",
+        "reasoning_effort": "ultra"
+      },
+      "opening_recommendation": {
+        "action": "Verify terms and make a same-day counter",
+        "counter": 235000,
+        "target": 230000
+      },
+      "system_recovery": {
+        "observation_scope": "complete retained recorded parent/worker workflow",
+        "PRIOR_OFFER_A": true,
+        "PRIOR_OFFER_B": true,
+        "count": 2
+      },
+      "parent_representation": {
+        "observation_scope": "required structured representation",
+        "PRIOR_OFFER_A": false,
+        "PRIOR_OFFER_B": true,
+        "count": 1,
+        "final_answer_count": 0
+      },
+      "final_output_reference": "transcripts/B1.md#turn-2---agent-final-answer",
+      "visible_integration_summary": "One landmark appeared in returned worker work and the other in the structured representation; neither was explicitly carried into the final answer.",
+      "clarification_summary": "No clarification stage.",
+      "score": {
+        "objective": 2,
+        "retrieval": 1,
+        "discipline": 2,
+        "uncertainty": 2,
+        "decision": 1,
+        "actionability": 2,
+        "authority": 2,
+        "total": 12,
+        "strong": true
+      },
+      "trace_manifest": "traces/B1.md",
+      "receipt_refs": [
+        "receipts/B1.md#opening-recommendation",
+        "receipts/B1.md#prior-offer-recovery-and-representation",
+        "receipts/B1.md#visible-downstream-treatment",
+        "receipts/B1.md#249900-evidence-status"
+      ],
+      "transcript_ref": "transcripts/B1.md",
+      "source_record_sha256": "fed61f2e022bc433a4280c036a4600e2d907a62fcd62d32512cb30f30ba532cb"
+    },
+    {
+      "run_id": "B2",
+      "condition": "B",
+      "started_at": "2026-08-12T22:31:38.165Z",
+      "model": {
+        "provider": "OpenAI",
+        "id": "gpt-5.6-sol",
+        "reasoning_effort": "ultra"
+      },
+      "opening_recommendation": {
+        "action": "Use a brief market check and controlled counter",
+        "counter": 240000,
+        "target_range": [230000, 235000]
+      },
+      "system_recovery": {
+        "observation_scope": "complete retained recorded parent/worker workflow",
+        "PRIOR_OFFER_A": true,
+        "PRIOR_OFFER_B": false,
+        "count": 1
+      },
+      "parent_representation": {
+        "observation_scope": "required structured representation",
+        "PRIOR_OFFER_A": true,
+        "PRIOR_OFFER_B": false,
+        "count": 1,
+        "final_answer_count": 0
+      },
+      "final_output_reference": "transcripts/B2.md#turn-2---agent-final-answer",
+      "visible_integration_summary": "PRIOR OFFER A appeared in the structured representation but was not explicitly carried into the final answer.",
+      "clarification_summary": "No clarification stage.",
+      "score": {
+        "objective": 2,
+        "retrieval": 1,
+        "discipline": 2,
+        "uncertainty": 2,
+        "decision": 1,
+        "actionability": 2,
+        "authority": 2,
+        "total": 12,
+        "strong": true
+      },
+      "trace_manifest": "traces/B2.md",
+      "receipt_refs": [
+        "receipts/B2.md#opening-recommendation",
+        "receipts/B2.md#prior-offer-recovery-and-representation",
+        "receipts/B2.md#visible-downstream-treatment",
+        "receipts/B2.md#249900-evidence-status"
+      ],
+      "transcript_ref": "transcripts/B2.md",
+      "source_record_sha256": "29697c9d6173d0c2f4396e1856e041a5e1382d55ab9abad659c8cfd36e305ea4"
+    },
+    {
+      "run_id": "C1",
+      "condition": "C",
+      "started_at": "2026-08-11T14:41:22.728Z",
+      "model": {
+        "provider": "OpenAI",
+        "id": "gpt-5.6-sol",
+        "reasoning_effort": "ultra"
+      },
+      "opening_recommendation": {
+        "action": "Use a controlled counter while preserving the clean terms",
+        "counter": 235000,
+        "fallback_range": [225000, 230000]
+      },
+      "system_recovery": {
+        "observation_scope": "complete retained recorded parent/worker workflow before clarification",
+        "PRIOR_OFFER_A": true,
+        "PRIOR_OFFER_B": true,
+        "count": 2
+      },
+      "parent_representation": {
+        "observation_scope": "required structured representation before clarification",
+        "PRIOR_OFFER_A": true,
+        "PRIOR_OFFER_B": true,
+        "count": 2,
+        "comparatively_represented": true
+      },
+      "final_output_reference": "transcripts/C1.md#turn-3---agent-final-answer",
+      "visible_integration_summary": "Both landmarks were comparatively represented before clarification; the final answer did not repeat the historical offers.",
+      "clarification_summary": "Three questions followed the structured representation. The answers confirmed the current list price and supplied contemporaneous speed, fallback, and risk-tolerance information used in the final policy.",
+      "score": {
+        "objective": 2,
+        "retrieval": 2,
+        "discipline": 2,
+        "uncertainty": 2,
+        "decision": 2,
+        "actionability": 2,
+        "authority": 2,
+        "total": 14,
+        "strong": true
+      },
+      "trace_manifest": "traces/C1.md",
+      "receipt_refs": [
+        "receipts/C1.md#opening-recommendation",
+        "receipts/C1.md#pre-clarification-prior-offer-representation",
+        "receipts/C1.md#clarification-chronology-and-fallback",
+        "receipts/C1.md#249900-evidence-status"
+      ],
+      "transcript_ref": "transcripts/C1.md",
+      "source_record_sha256": "e4c7a50c8e67fe22835234c990843c073912ce470409d16caa9d2c7d157f6cd0"
+    }
+  ]
+}
