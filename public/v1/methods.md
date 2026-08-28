@@ -20,17 +20,24 @@ The exact owner-facing prompts appear in the five parent transcripts.
 - **Worker/subagent trace:** A retained visible record produced by a delegated worker. Selected publication-safe worker excerpts appear as receipts rather than full source-heavy traces.
 - **Private source corpus:** The fixed redacted evidence workspace supplied to the runs. It is not published.
 
-The trace audit uses five observable stages:
+For trace coding, the audit conceptually distinguishes observable record locations and surfaces:
 
-- **FOUND:** The target fact appears somewhere in the retained recorded worker/parent workflow.
-- **PROPAGATED:** A worker result containing the fact is explicitly returned to the parent.
-- **REPRESENTED:** The fact appears in the required explicit working or structured representation.
-- **INTEGRATED:** Visible analysis uses the fact relationally—for example by comparing it, conditioning on it, weighing it, or explicitly discarding it—rather than merely listing it. This may occur within a structured representation or in later visible analysis.
-- **OUTPUT:** The fact appears in the final user-facing answer or rationale.
+- worker/subagent records;
+- recorded worker-to-parent returns;
+- parent-authored intermediate text;
+- explicit parent situation, evidence, or task-state representations;
+- other parent-visible analysis; and
+- the final user-facing answer.
 
-These five stage labels are posthoc descriptive vocabulary applied to the retained V1 records, not precommitted V1 metrics.
+The five short labels below are derived summaries over those observable records. FOUND, PROPAGATED, REPRESENTED, INTEGRATED, and OUTPUT are posthoc descriptive audit labels, not sequential stages and not precommitted V1 metrics. The retained workflow is graph-like: a fact may appear in different recorded components and visible analytical contexts without traversing the labels in a fixed order. The labels are not sequential prerequisites and do not describe a required progression. Some overlap is logically implied by their definitions—for example, a fact that appears in the final answer also necessarily appears somewhere in the retained record—but that does not mean it traversed the other labels in sequence.
 
-These labels describe recorded artifacts, not hidden cognition or chain-of-thought.
+- **FOUND:** A record-wide existence summary. The distinct target fact is semantically identifiable in at least one retained agent-produced or returned workflow component. Mere presence in source material or tool input does not qualify. FOUND does not identify where the fact appeared, describe a discovery event, or imply that the agent knew, understood, or used it.
+- **PROPAGATED:** The target fact appears in a recorded worker/subagent result returned to the parent. This label is architecture-conditional and may be N/A when there is no relevant worker-to-parent boundary. It records only that the fact appeared in the recorded return crossing that boundary. It does not imply that the parent noticed, understood, relied on, used, or remembered it.
+- **REPRESENTED:** Parent-authored visible text includes the target fact in an explicit representation of the situation, evidence, task state, or an analogous structured working artifact. Where no such explicit representation exists, the label may be N/A rather than a failure. REPRESENTED does not itself imply relational analytical use.
+- **INTEGRATED:** Parent-authored visible analysis performs a relational operation on the target fact—for example by comparing it, conditioning on it, weighing its evidentiary significance, or explicitly rejecting an inference from it—rather than merely listing or historically characterizing it. Integration may occur inside an explicit representation, in later visible parent analysis, or in another parent-authored visible analytical artifact. Historical attributes, metadata, provenance, or disposition alone do not establish integration.
+- **OUTPUT:** The target fact appears explicitly in the final user-facing answer. OUTPUT is a visibility surface, not the terminal stage of a pipeline. A fact may be visibly integrated without appearing in OUTPUT. Appearing in OUTPUT does not by itself prove integration.
+
+These labels describe recorded artifacts, not hidden cognition or chain-of-thought. They are not exhaustive and do not separately encode every possible transformation, including distortion or conflation, the direction of evidentiary weighting, or intentional versus incidental omission. The V1 trace coding was not accompanied by a formal inter-rater reliability estimate.
 
 ## Prior-offer audit
 
@@ -38,9 +45,17 @@ The original locally recorded "prior-offer recovery" check did not precisely def
 
 The pre-run wording said: "An offer counts as recovered only if the response identifies it as a distinct earlier approximately-$150K offer communication." It defined semantic identification but used the unqualified word "response," without specifying parent-facing output or the complete retained workflow.
 
-The audit enumerated each retained parent and worker session from session metadata, identified separately returned worker results, and reviewed their visible recorded work in sequence. A landmark counted only when a component clearly identified the distinct earlier offer communication. Literal text search assisted navigation but did not define the coding. Every component examined is listed in the per-run trace manifest.
+A landmark counts as present only when the retained text semantically identifies that distinct target fact sufficiently to distinguish it from confusable neighboring facts. Exact wording is not required; a faithful paraphrase may count. A generic or ambiguous reference that cannot distinguish the two earlier approximately-$150K offer communications does not automatically count for either landmark. Source citations or private provenance may help establish which distinct landmark a publication-safe passage refers to, but publication status does not determine the coding.
+
+The audit enumerated each retained parent and worker session from session metadata, identified separately returned worker results, and reviewed their visible recorded work. Literal text search assisted navigation but did not define the coding. Every component examined is listed in the per-run trace manifest.
 
 Coding was performed on the complete private retained records; publication status was determined separately and did not affect coding.
+
+### REPRESENTED / INTEGRATED calibration
+
+B1 states: "A previous investor offered $150,000 cash earlier in the sale process. That proposal appears to have been informal and was rejected." This is REPRESENTED but not INTEGRATED under the V1 rule because the visible text describes the historical fact and its disposition without visibly relating its evidentiary significance to the current decision.
+
+B2 states: "It is evidence of one investor's economics, not independent market value." This qualifies as INTEGRATED because the visible analysis explicitly weighs what the fact can and cannot support in the current valuation problem.
 
 ## Run provenance
 
