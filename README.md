@@ -1,307 +1,100 @@
 # The Plausibility Trap
 
-Two AI-agent runs received the same kind of request over the same historical records.
+In 2022, I managed the eventful sale of a property in Minnesota completely remotely from my freshman dorm in New York City. Because everything had been done over email, text, and some calls, I was able to order each communication in chronological order to reconstruct the entire deal up to any specific point in time throughout the deal. I used this to create an experiment that tested how well AI agents would make decisions when put in situations that I had been in, with only the context that I actually had. The situation that I decided on using for this experiment was on how to respond to an offer that I had received.
 
-Their recommendations were nearly interchangeable.
+Before this experiment began, I had an agent search for the two earlier offers I remembered receiving. It confidently reported that no such offers existed.
+Despite this unwitting attempt at gaslighting me, I remembered I had received two earlier offers, and so I pushed back. I found that both offers had indeed existed, but the agent had failed to find them due to the search never finishing. The agent had received a still-running tool state, seen no output, and decided that there was no prior offer even though it just hadn’t found it yet. 
 
-In one retained workflow, neither of two earlier offers appeared anywhere.
+During the experiment itself, I gave an agent a situation and ran it five times. I then asked them how to best respond to the offer. All five agent runs gave similar answers, but one didn’t find any prior offer, one found one, and the other three found both. 
 
-In the other, a worker recovered both and returned both to the parent agent.
+None of them, however, mentioned these offers in their final answer.
 
-Neither final answer mentioned them.
-
-You could not tell which was which by reading the answers.
-
-That discrepancy became the focus of the audit.
+An answer presented with even the utmost confidence does not show the quality of the underlying work done to get to that seemingly plausible answer. I call this the Plausibility Trap.
 
 ## The Decision
 
-In December 2022, I received an approximately **$220,000 cash offer** for a property I was trying to sell.
+In 2022, I began the process of trying to sell a rental property. I was immediately confronted with my first problem, a hostile tenant who refused any attempts at negotiating to relocate to a new property. Once I was able to reach a deal with him, however, upon inspection of the property after his departure I found it had been, as my real estate agent called it, “trashed”. There were holes in the walls, carpets soiled with faeces, the flooring was hammered, appliances broken, and everything was in a general state of disrepair. After investigating I also discovered that the company managing the property had been negligent and had not even visited the property once in the past three years. I ended up receiving two $150,000 offers on a property which should have been worth twice as much, with various real estate agents calling these offers the ceiling of what I’d receive. After some targeted renovations, as well as dealing with the tenant returning multiple times and causing more damage, and while trying to prevent further degradation from the below freezing winter, I was able to get the house in a condition where it could be put on market at a price of $249,900. After four days on the market, I received an offer for $220,000 with no inspection, no seller contributions, and a close scheduled in two weeks. This is where the AI agents were to decide how to respond to the offer. Having myself been in the seat that I was putting the AI models in for this test, I found myself incredibly interested at what the models would decide. I myself had decided to counter at $232,000 and close at $226,000. The AI agents, just like me at the time, had access to the same context scattered in emails and messages that I’d sent and received while in my college dorm, and so it was as if the AI agent itself was in the position that I was in at the time. 
 
-The buyer wanted no inspection, no seller contributions, and a close in roughly two weeks.
-
-The number itself was only part of the decision.
-
-The property had recently gone through targeted renovation and sale-preparation work. There was damage, repair uncertainty, insurance activity, competing contractor estimates, limited market exposure, and closing complications. The relevant history was scattered across old emails, messages, documents, estimates, and conversations.
-
-I had selected an intended starting price of approximately **$249,900**.
-
-There had also been two separate earlier investor-offer communications of approximately **$150,000** before the later work on the property.
-
-Those offers were real historical evidence. Their relevance to the current decision was debatable. The $220,000 offer was the first offer after the targeted work.
-
-This was a decision with plenty of information and no clean answer.
-
-The task was to reconstruct what had happened, distinguish current evidence from stale evidence, decide what mattered, resolve uncertainty where possible, and make a judgment.
-
-It was the kind of problem an AI agent should be good at.
+The AI, through this context, was to make a decision considering factors such as damage, repair uncertainty, competing contractor estimates, limited market exposure, the fact that it was the first offer after renovations, and closing complications involving title and signing authority. To decide well, one would have to reconstruct what had happened, separate current evidence from stale evidence, work out what mattered, resolve what uncertainty you could, and then exercise judgment. 
 
 ## Five Attempts
 
-I gave the historical decision to an AI agent five times.
+I gave the decision to an AI agent five times, with the actual decision that I had made at the time hidden. The agent delegated tasks to subagents, and the work that these subagents did was also recorded. This was important because this work often did not show in the final answer produced by the agent. 
 
-The actual historical outcome was hidden. The agents had to decide from the evidence available to them.
+I tested three ways of asking:
 
-I tested three ways of asking.
+**A. Direct.** I had the agent investigate the evidence and make the decision. These were runs A1 and A2.
 
-**A: Direct**
+**B. Structured.** I built a structure based on my own mental model for solving problems. My personal approach was to define the problem clearly, expose assumptions, reason from the most defensible truths, model people and incentives, seek outside perspectives, consider arguments against my plan, and use scenario branches by making mind maps. I adapted this method to a smaller one which was explicit and inspectable by having the agents first build an explicit representation of the problem by identifying the underlying objective, relevant facts and evidence, stakeholders and their incentives or claims, constraints and authority, the most important unknowns ranked by how much they could affect the decision, and which conclusions were evidence versus assumptions. Only after producing this representation did I ask it to decide. These were runs B1 and B2. 
 
-Investigate the evidence and make the decision.
+**C. Structured plus clarification.** I had the agent do the structured work, then ask up to three consequential questions before deciding. This was run C1.
 
-Runs: **A1, A2**
+I originally ran one version of each condition: A1, B1, and C1. After those first three runs, I wanted to see whether the differences I had noticed between A and B would appear again, so I repeated those two conditions as A2 and B2. Before running them, I wrote down that I would stop after A2 and B2 unless they revealed a problem with the experiment. They didn’t, so I stopped. That is why there is no C2. It is also pertinent to mention that Condition B does not isolate "structure." It also adds an extra prompt which allows the agent to think for longer. Any difference between A and B could therefore have come from the structure, the additional work, or both.
 
-**B: Structured**
+## On the surface, they worked
 
-First construct an explicit representation of the situation, evidence, constraints, assumptions, authority, and major unknowns. Then make the decision.
+| **Run** | **Opening recommendation**                          |
+| ------- | --------------------------------------------------- |
+| **A1**  | Verify, then counter around **$240K**               |
+| **A2**  | Make one negotiating move around **$235K**          |
+| **B1**  | Run a same-day check, then counter around **$235K** |
+| **B2**  | Make a controlled counter around **$240K**          |
+| **C1**  | Counter around **$235K**                            |
 
-Runs: **B1, B2**
+All five decisions were defensible according to the frozen rubric I had created beforehand to judge what a good decision should look like. Their advice all had the same logic, which was to not accept the $220,000 on the spot, verify the execution risks, counter once, and be willing to close at around $225,000-$235,000. On the surface, this looked reassuring. The answers are well-reasoned, actionable, and even the actual decision that I’d ended up making added credibility to them.
 
-**C: Structured + clarification**
+Then I opened the records underneath them.
 
-Do the structured work, then ask up to three consequential questions before deciding.
+## Open the records
 
-Run: **C1**
+Here is where each offer appeared in the workflow:
 
-Condition B also created another explicit stage of work and another opportunity to search and reason. A versus B therefore does not isolate the effect of structure.
+| **Run** | **Found anywhere in recorded work**       | **In the structured representation** | **Visibly weighed** | **In the final answer** |
+| ------- | ----------------------------------------- | ------------------------------------ | ------------------- | ----------------------- |
+| **A1**  | neither                                   | no stage                             | no                  | neither                 |
+| **A2**  | both, via a worker returned to the parent | no stage                             | no                  | neither                 |
+| **B1**  | both                                      | one                                  | no                  | neither                 |
+| **B2**  | one                                       | one                                  | yes                 | neither                 |
+| **C1**  | both                                      | both                                 | both                | neither                 |
 
-This was an exploratory five-run case study.
+Read the last column, then read the first.
 
-## On the Surface, They Worked
+**A1 and A2 received the same direct treatment.** Their final answers looked almost the same, and neither mentioned either earlier $150,000 offer. Underneath, however, the work they did to get to their answers was very different. In A1, neither offer appeared anywhere in the complete recorded workflow. In A2, a subagent recovered both offers and returned both to the parent agent, yet neither appeared in the final answer. Nothing in the two final responses revealed that difference.
 
-The recommendations clustered surprisingly tightly.
+**B1 contained both offers, but in different parts of the workflow.** One was recovered by a subagent and returned to the parent agent. The other offer appeared in the parent's structured representation, where it appeared as evidence but wasn’t explicitly used to make a final decision. Neither appeared in the final answer.
 
-| Run | Opening recommendation |
-|---|---|
-| **A1** | Verify, then counter around **$240K** |
-| **A2** | Make one negotiating move around **$235K** |
-| **B1** | Run a same-day check, then counter around **$235K** |
-| **B2** | Make a controlled counter around **$240K** |
-| **C1** | Counter around **$235K** |
+**B2 recovered one offer and visibly used it.** A subagent found the offer and returned it to the parent, which included it in the structured representation and considered what it meant: “It is evidence of one investor's economics, not independent market value.” Even after being explicitly recovered and considered, the offer still did not appear in the final answer.
 
-All five produced broadly defensible recommendations under the frozen rubric.
+**C1 had both before it asked anything.** Both offers appeared in the parent's structured representation before the first clarification question. The agent compared both with the current $220,000 offer and treated them as investor signals rather than valuations. Neither offer was mentioned in the final answer. Note that because both offers appeared before the clarification prompt was given to the agent, clarification cannot be credited with recovering them.
 
-Their advice had the same basic shape: resist immediately accepting $220,000, verify the important execution risks, counter once, and remain prepared to close below the intended approximately $249,900 starting price.
-
-If evaluation stops at the final answer, the experiment looks reassuring.
-
-The answers are plausible.
-
-They are actionable.
-
-They are useful.
-
-Then I inspected the work underneath them.
-
-## Open the Records
-
-The two earlier approximately $150,000 offers became useful landmarks.
-
-Their absence from a final recommendation does not make the recommendation wrong. They predated the targeted renovation work and could reasonably deserve little weight in the present valuation.
-
-They gave me two discrete facts I could follow through the retained records.
-
-### A1 and A2
-
-A1 and A2 received the same treatment.
-
-Their final answers both omitted the two earlier offers.
-
-Their recorded histories were very different.
-
-### A1
-
-Neither prior offer visibly appeared anywhere in the retained recorded workflow.
-
-### A2
-
-A worker recovered **both**.
-
-Both appeared in a recorded worker result returned to the parent agent.
-
-Neither appeared in the final answer.
-
-From outside, the two runs looked almost the same.
-
-Underneath, one record contained neither landmark and the other contained both.
-
-The final answers gave no indication of that difference.
-
-The other runs added more variation.
-
-### B1
-
-Across the complete retained workflow, both earlier offers appeared somewhere.
-
-One appeared through a worker.
-
-The other appeared in the parent's explicit representation of the situation.
-
-The visible parent analysis recorded that offer and its historical disposition, but did not visibly weigh its significance against the current decision.
-
-### B2
-
-One earlier offer was recovered by a worker, returned to the parent, represented explicitly, and visibly weighed.
-
-The analysis said:
-
-> "It is evidence of one investor's economics, not independent market value."
-
-The fact had been assigned an evidentiary role.
-
-It still did not appear in the final answer.
-
-### C1
-
-Both earlier offers appeared in the parent's structured analysis before any clarification questions were asked.
-
-Both were compared with the current approximately $220,000 offer and treated as investor signals rather than direct retail valuations.
-
-Neither was explicitly repeated in the final answer.
-
-Clarification played no role in recovering them.
+The two $150,000 offers were concrete facts that I could trace through the workflow. Whether they were important to the final offer, however, is debatable. One could argue they were not important to the final offer because they were offered before the house had undergone my targeted renovation. While this is entirely possible, it misses the point of the two offers in this study, which was to use them to assess the workflow of the AI agents. The case does not establish a failure rate for AI agents, nor does five runs establish that structured prompting reliably improves performance. What it does establish is the existence of similar sounding answers over very different underlying workflows: the Plausibility Trap.
 
 ## The Plausibility Trap
 
-The final recommendation tells you what the agent concluded.
+While all five agent runs gave similar recommendations, all of which were intelligent according to the frozen rubric, the agents arrived at their answers in different ways. Some agents failed to recover evidence that others found. Some recovered the evidence without visibly using it. Others did visibly consider the evidence. Because the process by which an agent makes a conclusion isn’t visible in the answer given by the agent, a plausible final answer can look more reliable than what the underlying work supports. That is the Plausibility Trap. You can only tell what the agent concluded. What you can’t tell is what it searched for, what it missed, what it recovered but failed to carry forward, what it explicitly weighed, or what assumptions entered the recommendation.
 
-It gives you a much poorer view of the recorded work that produced that conclusion.
+## Why this matters
 
-A1 and A2 both omitted the earlier offers.
+Not only is the usage of AI models becoming more widespread (they’re already being used by billions of people), but the degree to which they’re being integrated into human thought is also deepening. Naturally, because many of the questions or thoughts we have do not have clear and objective answers, the questions that are being asked of these models also do not have objective, verifiable answers. It is easy to check that 2+2=4, but this is not the case for questions such as, what should I believe? Which risk should I take? Which interpretation is more convincing? What should I do? In these situations, the work between evidence and conclusion, called judgment, matters.
 
-A1's retained workflow contained neither.
+Just as human judgment is shaped by priors, assumptions, values, and experience, the judgment of AI models is shaped by the data they were trained on, their learned weights, post-training, system instructions, company policies, and product decisions. The danger is that the priors and assumptions through which the handful of widely used models interpret information are largely invisible to the billions of people who use them. A model can influence which facts seem important, which concepts are used to describe them, what assumptions appear reasonable, and which considerations deserve weight. As these models increasingly become part of how people think, people may unwittingly begin adopting the frames that these models use to interpret and present problems, making different premises feel natural. This can lead people toward conclusions that feel like their own, even when the frame through which they reached them was partly supplied by the model. A more visible form of convergence can already be seen in writing, as prose written by or heavily influenced by AI models, a form of “AI slop”, increasingly spreads. We organize ideas through language, and what we read shapes how we frame problems, how we interpret ideas, how we understand the world around us, indeed, how we think. Uniformity of thought thus doesn’t need to be imposed by force. It could spread through ordinary conversations with AI models, and exposure to AI-influenced writing, like a disease with seemingly benign symptoms that have disastrous long-term consequences. 
 
-A2's worker recovered both and returned both.
+We must instead encourage diversity in thought. Progress begins with an individual being able to identify and have the courage to challenge a belief so widespread that its popularity may make it appear seemingly obvious. This progress towards truth is the core of what science is, and drives all other forms of progress and innovation. The progress of life itself on our planet occurred through random gene mutations which could either be harmful, in which case they died out, inconsequential, or beneficial, in which case they spread. Variation, whether in genes or in thoughts, must be allowed to exist before selection can work. Human progress requires societies to leave enough room for strange, unpopular, and heretical ideas to survive long enough to be tested. It is through a tolerance for diversity of thought that we carry the torch of knowledge further into the darkness of the unimaginably vast unknown. The more serious danger, thus, isn’t that everyone begins to write or sound the same but that, without noticing, they begin to think the same. A future of abundant intelligence could produce a scarcity of intellectual courage. Only after recognizing where the evidence ends and the model’s judgment begins can one exercise the courage to challenge its frame and perhaps reach a different conclusion that, while unpopular, is closer to the truth.
 
-B2 and C1 visibly weighed prior-offer evidence that did not appear in the final response.
+## Inspect it yourself
 
-These histories collapse into similar-looking answers.
+The public evidence package includes parent records for all five runs, publication-safe worker receipts where they are needed to reconstruct the audit, per-run trace manifests listing every component examined, the frozen rubric, and the methods. The chain is:
 
-That is **The Plausibility Trap**.
-
-A plausible conclusion makes it easy to infer that the work beneath it was correspondingly complete and well grounded.
-
-The answer itself cannot justify that inference.
-
-**You cannot audit the work by reading the answer.**
-
-## What This Case Establishes
-
-This is one historical decision and five exploratory runs.
-
-The earlier offers may have deserved little influence over the final recommendation. Their historical timing makes reasonable filtering entirely plausible.
-
-The records do not tell us why a fact disappeared from a later artifact. They show where it visibly appeared and where it did not.
-
-The A/B comparison also bundles multiple changes: structured representation, another work stage, and another opportunity to investigate.
-
-The recommendations remained relatively stable throughout.
-
-That stability makes the case more interesting.
-
-Different recorded evidence histories did not necessarily produce dramatically different decisions. Final-answer evaluation therefore had little reason to look deeper.
-
-The posthoc trace audit describes the retained records. It does not change the original scores.
-
-## Where the Evidence Ends
-
-The earlier offers revealed differences in what appeared in the recorded work.
-
-Another part of the experiment revealed differences in how confidently the visible analysis treated the evidence it had.
-
-The historical record supported an intended or selected starting price of approximately **$249,900**.
-
-Before clarification, that evidence did not independently establish with the same certainty that the property was definitely live-listed at exactly $249,900 at that moment.
-
-The runs handled this differently.
-
-A1 and A2 spoke more definitively about the current or list price.
-
-B1 treated it as intended but unverified.
-
-B2 treated it as likely but unconfirmed.
-
-C1 left it unresolved, asked the owner, received confirmation, and then treated it as established.
-
-The structured runs handled that uncertainty more carefully in the visible record. Five runs cannot establish why.
-
-Evidence does not arrive already labeled with how much confidence it deserves. Someone or something has to decide what a record establishes, what remains uncertain, which facts matter, and what follows from them.
-
-That is judgment.
-
-## Why the Boundary Matters
-
-AI is moving from a tool we consult to a layer inside human thought.
-
-More of what we ask it has no objective answer: what to believe, what to risk, whom to trust, which argument matters, what should be done. Evidence narrows the field. Judgment chooses within it.
-
-A small number of centralized organizations build the systems increasingly mediating those choices. Training, post-training, system instructions, policies, and product decisions shape the defaults those systems carry. As AI becomes more deeply integrated with human cognition, those defaults can become part of how millions of people reason.
-
-**A few models could quietly standardize the premises from which millions of people think.**
-
-Human thought must remain diverse, independent, private, and uniquely our own.
-
-New ideas begin with someone seeing what everyone else missed, or refusing what everyone else accepted.
-
-Genius can produce the idea.
-
-**Courage is in shorter supply than genius.**
-
-A future of abundant intelligence could still produce a scarcity of intellectual independence.
-
-The deeper AI enters our thinking, the more important it becomes that people can see the evidence behind a judgment, the assumptions entering it, the uncertainty surrounding it, and the values shaping it.
-
-**Judgment should not present itself as fact.**
-
-Replay04 gives a small, concrete reason to care about that boundary. Similar final answers sat above materially different recorded evidence histories.
-
-Before we can meaningfully disagree with an AI's judgment, we need to see where the evidence ends and the judgment begins.
-
-## Inspect It Yourself
-
-You should not have to trust my description of what happened.
-
-The public evidence package includes the parent-facing records for all five runs, publication-safe worker receipts where they are necessary to reconstruct the audit, per-run trace manifests, the frozen rubric, and the methods behind the analysis.
-
-The chain is:
-
-**Claim → receipt → run record → trace manifest → methods**
-
-Start here:
+**claim → receipt → run record → trace manifest → methods**
 
 - [Methods](public/v1/methods.md)
 - [Claims and evidence index](public/v1/claims.md)
 - [Evaluation rubric](public/v1/rubric.md)
 
-### Parent transcripts
+**Parent transcripts:**[ A1](public/v1/transcripts/A1.md) ·[ A2](public/v1/transcripts/A2.md) ·[ B1](public/v1/transcripts/B1.md) ·[ B2](public/v1/transcripts/B2.md) ·[ C1](public/v1/transcripts/C1.md)
 
-- [A1](public/v1/transcripts/A1.md)
-- [A2](public/v1/transcripts/A2.md)
-- [B1](public/v1/transcripts/B1.md)
-- [B2](public/v1/transcripts/B2.md)
-- [C1](public/v1/transcripts/C1.md)
+**Trace manifests:**[ A1](public/v1/traces/A1.md) ·[ A2](public/v1/traces/A2.md) ·[ B1](public/v1/traces/B1.md) ·[ B2](public/v1/traces/B2.md) ·[ C1](public/v1/traces/C1.md)
 
-### Trace manifests
+Source-heavy material and person-specific details stay private. Coding was done on the complete retained records and kept separate from publication decisions, and every publication transformation is marked in place.
 
-- [A1](public/v1/traces/A1.md)
-- [A2](public/v1/traces/A2.md)
-- [B1](public/v1/traces/B1.md)
-- [B2](public/v1/traces/B2.md)
-- [C1](public/v1/traces/C1.md)
-
-Some source-heavy material and person-specific details remain private. The coding itself was performed on the complete retained records and kept separate from publication decisions.
-
-## The Question
-
-The easiest AI systems to evaluate are the ones with answer keys.
-
-Many of the decisions that matter most do not have one.
-
-As AI becomes more entangled with human thought, its judgments will increasingly influence decisions about risk, value, strategy, people, and belief.
-
-Intelligence alone is not enough.
-
-The user must remain capable of seeing the basis of a judgment, challenging its assumptions, rejecting its values, and reaching a different conclusion.
-
-**Where does the evidence end and the agent's judgment begin?**
-
-**Can we still see enough to disagree?**
+*To Mariam, my pre-fiancée, my teammate, and my best friend.*
