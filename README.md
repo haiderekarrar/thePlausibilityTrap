@@ -97,4 +97,3 @@ The public evidence package includes parent records for all five runs, publicati
 
 Source-heavy material and person-specific details stay private. Coding was done on the complete retained records and kept separate from publication decisions, and every publication transformation is marked in place.
 
-*To Mariam, my pre-fiancée, my teammate, and my best friend.*
