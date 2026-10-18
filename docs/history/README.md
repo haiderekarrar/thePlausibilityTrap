@@ -9,5 +9,6 @@ The shipped V1 is an exploratory case study of one historical decision across fi
 - [Build specification v3](deal_autopsy_build_spec_v3.md): the broader Tier 1 architecture and historical Tier 1a design, including unexecuted plans.
 - [V1 execution status](V1_STATUS.md): the later decision to ship the five executed Work runs, interpretation boundaries, and final score lock.
 - [Deferred work](POST_SHIP.md): ideas and experiment expansions outside the shipped V1.
+- [Unused replay templates](replays/README.md): empty scaffolding from the earlier multi-replay plan, archived without filling in historical ground truth.
 
 The specifications, execution status, and deferred-work file retain their historical wording. References to Deal Autopsy and proposed repository layouts describe the project at those stages; they do not indicate a separate current project.
