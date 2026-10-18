@@ -1,15 +1,64 @@
 # The Plausibility Trap
 
+I reconstructed a real property sale I managed in 2022 and gave an AI agent the 586 emails and texts available before my first response to an offer, then asked it how to respond. Across five runs and three prompting conditions, it gave similar, defensible recommendations. The work behind those answers differed. One run surfaced neither earlier offer, one surfaced one, and three surfaced both, yet none mentioned them in its final answer. A convincing recommendation can hide large differences in how the evidence was found and weighed. I call this the Plausibility Trap.
+
+## Background
+
 In 2022, I managed the eventful sale of a property in Minnesota completely remotely from my freshman dorm in New York City. Because everything had been done over email, text, and some calls, I was able to order each communication in chronological order to reconstruct the entire deal up to any specific point in time throughout the deal. I used this to create an experiment that tested how well AI agents would make decisions when put in situations that I had been in, with only the context that I actually had. The situation that I decided on using for this experiment was on how to respond to an offer that I had received.
 
 Before this experiment began, I had an agent search for the two earlier offers I remembered receiving. It confidently reported that no such offers existed.
 Despite this unwitting attempt at gaslighting me, I remembered I had received two earlier offers, and so I pushed back. I found that both offers had indeed existed, but the agent had failed to find them due to the search never finishing. The agent had received a still-running tool state, seen no output, and decided that there was no prior offer even though it just hadn’t found it yet. 
 
-During the experiment itself, I gave an agent a situation and ran it five times. I then asked them how to best respond to the offer. All five agent runs gave similar answers, but one didn’t find any prior offer, one found one, and the other three found both. 
+## How it’s built
 
-None of them, however, mentioned these offers in their final answer.
+- **Ingestion and timeline.** [`src/ingest.py`](src/ingest.py) parses supported Gmail and iMessage text exports into a shared, validated Pydantic event format. [`src/ingest_documents.py`](src/ingest_documents.py) supports manually selected document facts entered as CSV rows; it does not extract PDFs. [`src/merge_events.py`](src/merge_events.py) combines event files chronologically, rejecting duplicate IDs and timestamps without timezones. Parsers preserve source identities so redaction happens in a separate step.
+- **Redaction and review.** [`src/find_mapping_candidates.py`](src/find_mapping_candidates.py) suggests sensitive strings for a human-reviewed mapping. [`src/redact.py`](src/redact.py) applies the mapping with consistent capitalization and word-boundary rules. [`src/verify_redaction.py`](src/verify_redaction.py) checks for remaining mapped strings and common sensitive patterns, separating blocking findings from numeric identifiers that need review. These checks support human review; they cannot guarantee that every sensitive detail has been identified.
+- **Tests.** The [22 tests](tests/) use Python’s built-in `unittest` framework: four cover document CSV ingestion and eighteen cover redaction and verification, including conflicting mappings, case handling, word boundaries, repeatability, and fictional fixtures with expected outputs.
+- **Experiment and evidence.** The five agent sessions were conducted manually. [`public/v1`](public/v1/) contains their publication-safe transcripts, selected worker receipts, trace manifests, frozen rubric, and methods. The experimental workspace contained 586 email and text events; standalone documents were not supplied to these runs. The historical source corpus and identity mapping remain private, so the public examples exercise the utilities without reproducing the original model runs. Earlier plans and development decisions are indexed in [the project history](docs/history/README.md).
 
-An answer presented with even the utmost confidence does not show the quality of the underlying work done to get to that seemingly plausible answer. I call this the Plausibility Trap.
+### Run the public examples
+
+Requires Python 3.10 or later. From the repository root, create a virtual environment, install the two dependencies, and run the tests. On macOS or Linux:
+
+```bash
+python3 -m venv .venv
+source .venv/bin/activate
+python -m pip install -r requirements.txt
+python -m unittest discover -s tests -v
+```
+
+On Windows PowerShell, activate the environment with `.venv\Scripts\Activate.ps1` instead of `source .venv/bin/activate`.
+
+<details>
+<summary>Build a sample timeline and check redaction</summary>
+
+All files in [`sample/`](sample/) are fictional. Parse the communication samples and the manually authored document CSV, then merge them into a timeline:
+
+```bash
+python src/ingest.py sample/gmail_redacted.txt --channel email \
+  --out work/demo/emails.jsonl --preview 0
+python src/ingest.py sample/imessage_redacted.txt --channel imessage \
+  --out work/demo/texts.jsonl --preview 0
+python src/ingest_documents.py sample/document_events_redacted.csv \
+  --out work/demo/documents.jsonl
+python src/merge_events.py work/demo/emails.jsonl work/demo/texts.jsonl \
+  work/demo/documents.jsonl --out work/demo/timeline.jsonl --preview 2
+```
+
+The combined timeline is written to `work/demo/timeline.jsonl`, with the first two events printed for inspection.
+
+Use the separate redaction fixture to apply a mapping and verify the result:
+
+```bash
+python src/redact.py sample/redaction_input.jsonl \
+  --mapping sample/mapping_demo.yaml --out work/demo/redacted.jsonl
+python src/verify_redaction.py work/demo/redacted.jsonl \
+  --mapping sample/mapping_demo.yaml
+```
+
+The redacted result matches [`sample/redaction_expected.jsonl`](sample/redaction_expected.jsonl). Generated files stay in the ignored `work/` directory.
+
+</details>
 
 ## The Decision
 
