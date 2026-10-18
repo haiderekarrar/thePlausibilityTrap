@@ -1,6 +1,6 @@
-# NOTES.md — agent-driving log
+# The Plausibility Trap — development log
 
-A running record of decisions, failures, corrections, and surprises while building Deal Autopsy. Newest entries at the bottom. Entries marked [FILL] need details from my own sessions — do not ship the file with [FILL] markers in it.
+A historical record of decisions, failures, corrections, and surprises while building The Plausibility Trap, originally called Deal Autopsy. Entries appear in chronological order and preserve the plans and interpretations held at the time; some were later superseded. See the [history index](README.md) for the shipped scope and current public evidence.
 
 **Contrarian thesis.** I believe the most valuable untapped evidence about knowledge-work automation is not sitting in public benchmark datasets. It is buried in the private digital exhaust of real transactions: messages, emails, documents, decisions, and outcomes. Deal Autopsy turns one such transaction into a privacy-preserving, reproducible test of where AI can act reliably, where better interfaces must structure context, and where human judgment still matters. The project itself is the wager: I started building that evidence before anyone paid me to.
 
@@ -12,7 +12,7 @@ A running record of decisions, failures, corrections, and surprises while buildi
 
 **Redaction uniformity rule.** Every identity string gets mapped, including my own name and all its aliases (full name, first-name case variants, "Me" -> ME, surname catch-all, my username inside attachment file paths). No exceptions: a rule with zero exceptions is machine-checkable (any grep hit = leak, script fails loudly); one exception forces human judgment on every hit. Also mapped weakly-identifying counterparty first names to stable pseudonyms because identification is combinatorial: first name + city + role + date is findable, and mapping costs one YAML line.
 
-**Model routing protocol (pipeline).** Verify, then downgrade: hand-label 50 events, run the cheap model on the same 50, measure agreement. At >=95% the cheap model owns classification; below that, fix the prompt and retry, or have the cheap model emit a confidence flag and escalate only uncertain rows. Measured agreement: [FILL after running].
+**Model routing protocol (pipeline).** Verify, then downgrade: hand-label 50 events, run the cheap model on the same 50, measure agreement. At >=95% the cheap model owns classification; below that, fix the prompt and retry, or have the cheap model emit a confidence flag and escalate only uncertain rows.
 
 **Model tiers are a finding, not a cost problem.** In the pipeline, models are workers: route to the cheapest verified tier. In the replays, models are the subjects: deliberately run small/mid/frontier on the SAME decisions, because where on the capability curve each primitive becomes automatable (and at what cost per task) is exactly the question an interface company needs answered.
 
@@ -63,10 +63,6 @@ A running record of decisions, failures, corrections, and surprises while buildi
 **Replay integrity cleanup.** Neutralized outcome-bearing replay IDs, made prompt leakage boundaries and the two-call Condition C explicit, separated historical-action matching from decision quality, froze retry and model-configuration rules, and restored a mapped case-variant privacy warning.
 
 **Notebook-method replay scaffold.** Conditions B and C now organize context into the same five-part evidence brief before any decision; C derives up to three owner-answerable questions from its ranked unknowns before Call 2 decides. Decision-quality scoring can fully credit defensible alternatives, while historical-action matching remains separate. The headline grid uses one model family at maximum explicit reasoning effort and reports actual cost; a second-provider replay-4 check is post-v1. Rejected a separate model preflight system as unnecessary: explicit model IDs, UTC timestamps, frozen settings, and the existing unscored vertical slice are enough for this demo.
-
-**[FILL] — Redaction verification results.** What the leak-check grep caught on its first run, if anything, and what was added to mapping.yaml as a result.
-
-**[FILL] — Anything that surprised me.** Standing rule: one line, same day, every time an agent does something unexpectedly good or unexpectedly bad.
 
 **Redaction and verification correction.** Replacement and mapped-source verification now share one capitalization policy: mapped sources are case-insensitive except exact-case `Me -> ME`, preserving ordinary lowercase pronouns. Mapped sources, emails, telephone numbers, and possible street addresses remain blocking findings. Generic long-digit sequences are advisory because they may represent either sensitive numbers or harmless structural identifiers. Standard UUID-contained runs are suppressed. The real corpus passed all blocking verification. The owner reviewed the 15 remaining numeric advisories and classified all of them as public application IDs or generated URL, email, and attachment metadata. No mapping changes were required.
 

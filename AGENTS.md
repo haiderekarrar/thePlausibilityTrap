@@ -2,8 +2,8 @@
 
 ## Source of Truth
 
-- `deal_autopsy_build_spec_v3.md` remains the source of truth for the broader Tier 1 architecture and the historical Tier 1a design.
-- `V1_STATUS.md` is the current additive execution addendum. Its later owner-approved V1 decision supersedes the unexecuted v3 run-count and build-order requirements without rewriting what v3 originally planned.
+- `docs/history/deal_autopsy_build_spec_v3.md` remains the source of truth for the broader Tier 1 architecture and the historical Tier 1a design.
+- `docs/history/V1_STATUS.md` is the current additive execution addendum. Its later owner-approved V1 decision supersedes the unexecuted v3 run-count and build-order requirements without rewriting what v3 originally planned.
 - No `replay.py` code is in V1 scope. Any future replay harness still requires the written implementation plan and owner approval required by v3.
 
 ## Current V1 Scope
@@ -12,7 +12,7 @@
 - The manual pilot originally informed rather than replaced the larger v3 design. A3/B3/C2/C3 and the 27-attempt Tier 1a grid were not run and are deferred, not completed.
 - Do not add model runs, conditions, repeats, a replay harness, or scoring changes to V1 without a new explicit owner approval.
 - Preserve the completed-run materials, frozen manual-pilot rubric, and final V1 score lock. Do not rescore V1 without explicit owner approval.
-- Treat all pilot findings as exploratory and obey the interpretation and publication boundaries in `V1_STATUS.md`.
+- Treat all pilot findings as exploratory and obey the interpretation and publication boundaries in `docs/history/V1_STATUS.md`.
 
 ## Product Goal
 
@@ -30,7 +30,7 @@
 - Never inspect, print, summarize, or send the contents of `raw/`. Scripts may process `raw/` locally when explicitly requested.
 - Reserve `raw/` and "raw" for private unredacted source material. Describe model-visible experimental context as "unstructured redacted context" or "redacted evidence" so future plans do not imply that replay models receive `raw/`.
 - `mapping.yaml` and private derived candidate files may be inspected only in a separately authorized mapping task. Treat that as a scoped exception, not standing access.
-- Do not quote private source values in chat responses, logs, exceptions, commit messages, `NOTES.md`, or public artifacts.
+- Do not quote private source values in chat responses, logs, exceptions, commit messages, `docs/history/NOTES.md`, or public artifacts.
 - Replay and analysis model calls receive redacted artifacts only. `ingest.py` and `redact.py` remain offline by construction and must not import network clients.
 - All committed fixtures and `sample/` data are invented. Never derive sample text from `raw/`, even in edited form.
 - Before configuring the first public remote or making the first public push, perform a bounded history-level privacy audit of every commit and file reachable from `master`; confirm that no non-public material entered that history. This release check is separate from redaction verification for model-visible artifacts.
@@ -65,7 +65,7 @@
 
 ## Build Log Habit
 
-- After a surprising failure, correction, implementation decision, or scope change, draft a concise `NOTES.md` entry for the user's review. Do not apply substantive wording without approval.
+- After a surprising failure, correction, implementation decision, or scope change, draft a concise `docs/history/NOTES.md` entry for the user's review. Do not apply substantive wording without approval.
 
 ## Verification
 
@@ -83,7 +83,7 @@
 - Write out the `replay.py` implementation plan and obtain the user's approval before writing any `replay.py` code.
 - Generation prompts must never contain ground truth, outcomes, scores, post-decision events, or replay filenames and slugs. Use outcome-neutral internal replay IDs.
 - Conditions A and B never receive `operator_state.md`. Condition C receives only the verified, redacted answers to the questions it actually asked, never the complete file.
-- Freeze each replay's rubric, prompts, ground truth, operator state, exact model identifiers, supported parameters, retry rules, and cost limits before its first scored run. Use dated model snapshots when the provider offers them. Record later changes in `NOTES.md` and create new run IDs.
+- Freeze each replay's rubric, prompts, ground truth, operator state, exact model identifiers, supported parameters, retry rules, and cost limits before its first scored run. Use dated model snapshots when the provider offers them. Record later changes in `docs/history/NOTES.md` and create new run IDs.
 - Decision-quality scoring must permit defensible alternatives supported by contemporaneous evidence. Report historical-action matching separately; never use it by itself as the quality score.
 - Retry only attempts that fail before a model response because of a timeout, rate limit, transport error, or provider 5xx error. A completed refusal, malformed response, or poor answer remains the recorded result for that scheduled run and is never rerolled.
 - Run replays honestly and publish the results whatever they show, including results that flatter the models or complicate the project's thesis.
