@@ -75,9 +75,11 @@ While all five agent runs gave similar recommendations, all of which were intell
 
 ## Limitations
 
-This is an exploratory case study of one decision and five runs of one model, so it does not establish general failure rates or stable differences between prompting conditions. [Condition B](public/v1/methods.md#conditions) adds both structure and another opportunity to search and reason, so the study cannot isolate the effect of structure.
+This is one decision from one real case, run five times. It cannot establish a failure rate for AI agents, and it cannot show that structured prompting reliably helps. Condition B added structure but also an extra prompt that gave the agent more room to work, so any difference between A and B could come from either or both.
 
-There was no [minimal-context baseline](docs/history/POST_SHIP.md#future-program-map)—a comparison using only the offer’s headline facts—so the study cannot determine how much the historical evidence changed the recommendations. The earlier offers preceded renovation and may not have been decisive for the current offer; their omission from a final answer does not by itself establish poor judgment.
+There was no minimal-context baseline, so the study cannot show how much the historical evidence changed the advice. Similar recommendations might have come from the headline facts alone.
+
+Finally, leaving the earlier $150,000 offers out of the final answer may have been reasonable, since they came before the renovation. The study uses them to trace where evidence appeared and how it was weighed. Their omission alone does not establish a bad recommendation.
 
 ## Inspect it yourself
 
